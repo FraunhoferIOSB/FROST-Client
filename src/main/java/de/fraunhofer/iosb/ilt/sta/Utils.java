@@ -135,7 +135,7 @@ public class Utils {
             } catch (IOException exc) {
                 LOGGER.warn("Failed to get content from error response.", exc);
             }
-            if (statusCode == 401) {
+            if (statusCode == 401 || statusCode == 403) {
                 request.getURI();
                 throw new NotAuthorizedException(request.getURI().toString(), response.getStatusLine().getReasonPhrase(), returnContent);
             }
