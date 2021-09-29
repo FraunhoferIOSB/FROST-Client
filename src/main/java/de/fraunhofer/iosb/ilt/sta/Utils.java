@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.methods.HttpRequestBase;
 
 /**
@@ -34,6 +35,29 @@ public class Utils {
      * The logger for this class.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(Utils.class);
+
+    /**
+     * Removes characters that might break logging output. Currently: \n, \r and
+     * \t
+     *
+     * @param string The string to clean.
+     * @return The cleaned string.
+     */
+    public static String cleanForLogging(String string) {
+        return StringUtils.replaceChars(string, "\n\r\t", "");
+    }
+
+    /**
+     * Removes characters that might break logging output and truncates to a
+     * maximum length.Currently: \n, \r and \t
+     *
+     * @param string The string to clean.
+     * @param maxLength The maximum length of the returned String.
+     * @return The cleaned string.
+     */
+    public static String cleanForLogging(String string, int maxLength) {
+        return StringUtils.replaceChars(StringUtils.abbreviate(string, maxLength), "\n\r\t", "");
+    }
 
     /**
      * Returns true if the given string is null, or empty.

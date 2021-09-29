@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Consts;
 import org.apache.http.ParseException;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -105,7 +106,8 @@ public class EntityList<T extends Entity<T>> implements EntityCollection<T> {
                     nextLink = null;
                     return;
                 } catch (StatusCodeException exc) {
-                    LOGGER.error("Failed follow nextlink.", exc);
+                    LOGGER.error("Failed follow nextlink: {} - '{}' - {}", exc.getStatusCode(), nextLink, Utils.cleanForLogging(exc.getReturnedContent(), 100));
+                    LOGGER.debug("Response: {}", exc.getReturnedContent());
                     currentIterator = null;
                     nextLink = null;
                     return;
