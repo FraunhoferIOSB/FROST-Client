@@ -17,27 +17,19 @@
  */
 package de.fraunhofer.iosb.ilt.sta.jackson;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.google.gson.JsonElement;
 
 /**
  *
  * @author Michael Jacoby
  */
 public abstract class AbstractDataComponentMixin {
-    @JsonIgnore
-    public abstract JsonElement valueJson();
-    
-    @JsonIgnore
-    public abstract void setValueJson(JsonElement value);
-    
+
     @JsonInclude(Include.NON_DEFAULT)
     public abstract boolean isOptional();
-    
+
     @JsonInclude(Include.NON_DEFAULT)
     public abstract boolean isUpdatable();
-    
 
 }

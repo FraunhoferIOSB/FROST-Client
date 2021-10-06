@@ -17,7 +17,7 @@
  */
 package de.fraunhofer.iosb.ilt.sta.jackson;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.fraunhofer.iosb.ilt.swe.common.AbstractDataComponent;
 import java.util.List;
 
@@ -26,6 +26,7 @@ import java.util.List;
  * @author Michael Jacoby
  */
 public abstract class DataRecordMixin {
-    @JsonProperty("field")
-    List<AbstractDataComponent> fields;
+
+    @JsonIgnore
+    public abstract List<AbstractDataComponent> getFields();
 }

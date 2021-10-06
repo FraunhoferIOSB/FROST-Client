@@ -6,7 +6,6 @@ import de.fraunhofer.iosb.ilt.sta.model.TaskingCapability;
 import de.fraunhofer.iosb.ilt.sta.model.Thing;
 import de.fraunhofer.iosb.ilt.swe.common.AbstractDataComponent;
 import de.fraunhofer.iosb.ilt.swe.common.complex.DataRecord;
-import de.fraunhofer.iosb.ilt.swe.common.complex.Field;
 
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +53,7 @@ public abstract class AbstractTaskingCapabilityBuilder<U extends AbstractTasking
         return getSelf();
     }
 
-    public U taskingParameter(Field field) {
+    public U taskingParameter(AbstractDataComponent field) {
         if (getBuildingInstance().getTaskingParameters() == null) {
             getBuildingInstance().setTaskingParameters(new DataRecord());
         }
@@ -63,12 +62,10 @@ public abstract class AbstractTaskingCapabilityBuilder<U extends AbstractTasking
     }
 
     public U taskingParameter(String name, AbstractDataComponent taskingParameter) {
-        if (getBuildingInstance().getTaskingParameters() == null) {
-            getBuildingInstance().setTaskingParameters(new DataRecord());
+        if (!name.equals(taskingParameter.getName())) {
+            taskingParameter.setName(name);
         }
-        Field field = new Field(name, taskingParameter);
-        getBuildingInstance().getTaskingParameters().getFields().add(field);
-        return getSelf();
+        return taskingParameter(taskingParameter);
     }
 
     public U actuator(final Actuator actuator) {

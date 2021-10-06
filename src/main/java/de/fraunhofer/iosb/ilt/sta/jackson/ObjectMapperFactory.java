@@ -34,7 +34,6 @@ public final class ObjectMapperFactory {
             ObjectMapper myMapper = new ObjectMapper();
             myMapper.registerModule(new JavaTimeModule());
             myMapper.registerModule(new EntityModule());
-            myMapper.registerModule(new SweCommonModule());
             myMapper.addMixIn(DataRecord.class, DataRecordMixin.class);
             myMapper.addMixIn(AbstractDataComponent.class, AbstractDataComponentMixin.class);
             myMapper.addMixIn(AbstractSWEIdentifiable.class, AbstractSWEIdentifiableMixin.class);
