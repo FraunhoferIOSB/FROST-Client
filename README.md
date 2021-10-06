@@ -27,7 +27,7 @@ Add the dependency:
 <dependency>
     <groupId>de.fraunhofer.iosb.ilt</groupId>
     <artifactId>FROST-Client</artifactId>
-    <version>0.34</version>
+    <version>0.37</version>
 </dependency>
 
 ```
@@ -36,7 +36,7 @@ Add the dependency:
 
 Add the dependency:
 ```gradle
-compile 'de.fraunhofer.iosb.ilt:FROST-Client:0.34'
+compile 'de.fraunhofer.iosb.ilt:FROST-Client:0.37'
 ```
 
 ## API
@@ -221,7 +221,7 @@ service.unsubscribe(observationsViaDatastreamSubscription);
 
 ## Background
 
-This library emerged from a practical work for a lecture at [KIT](http://www.kit.edu) in collaboration with the [Fraunhofer IOSB](http://iosb.fraunhofer.de). A [server implementation](https://github.com/FraunhoferIOSB/SensorThingsServer) of the SensorThingsAPI, developed by the Fraunhofer IOSB, is available on GitHub as well.
+This library emerged from a practical work for a lecture at [KIT](http://www.kit.edu) in collaboration with the [Fraunhofer IOSB](http://iosb.fraunhofer.de). A [server implementation](https://github.com/FraunhoferIOSB/FROST-Server) of the SensorThingsAPI, developed by the Fraunhofer IOSB, is available on GitHub as well.
 
 ## Contributing
 

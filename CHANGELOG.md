@@ -1,3 +1,16 @@
+# Release Version 0.37
+
+**Updates**
+* Updated to new (simplified) version of SWE-Common library.
+
+
+# Release Version 0.36
+
+**Updates**
+* Add 403 to status codes that throw NotAuthorizedException.
+* Improved logging of failed nextLink follows.
+
+
 # Release Version 0.35
 
 **Updates**
