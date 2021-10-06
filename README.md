@@ -27,7 +27,7 @@ Add the dependency:
 <dependency>
     <groupId>de.fraunhofer.iosb.ilt</groupId>
     <artifactId>FROST-Client</artifactId>
-    <version>0.37</version>
+    <version>0.38</version>
 </dependency>
 
 ```
@@ -36,7 +36,7 @@ Add the dependency:
 
 Add the dependency:
 ```gradle
-compile 'de.fraunhofer.iosb.ilt:FROST-Client:0.37'
+compile 'de.fraunhofer.iosb.ilt:FROST-Client:0.38'
 ```
 
 ## API

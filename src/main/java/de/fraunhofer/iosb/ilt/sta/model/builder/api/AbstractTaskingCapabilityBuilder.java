@@ -57,7 +57,7 @@ public abstract class AbstractTaskingCapabilityBuilder<U extends AbstractTasking
         if (getBuildingInstance().getTaskingParameters() == null) {
             getBuildingInstance().setTaskingParameters(new DataRecord());
         }
-        getBuildingInstance().getTaskingParameters().getFields().add(field);
+        getBuildingInstance().getTaskingParameters().getField().add(field);
         return getSelf();
     }
 

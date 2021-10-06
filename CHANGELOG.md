@@ -1,3 +1,9 @@
+# Release Version 0.38
+
+**Updates**
+* Bumped dependencies.
+
+
 # Release Version 0.37
 
 **Updates**
