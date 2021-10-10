@@ -1,5 +1,6 @@
 package de.fraunhofer.iosb.ilt.sta.dao;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.fraunhofer.iosb.ilt.sta.MqttException;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import org.apache.http.Consts;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -71,23 +73,23 @@ public class ObservationDao extends BaseDao<Observation> {
      */
     public List<String> create(DataArrayDocument dataArray) throws ServiceFailureException {
         List<String> result = new ArrayList<>();
-        CloseableHttpResponse response = null;
+        final ObjectMapper mapper = ObjectMapperFactory.get();
         URIBuilder uriBuilder;
+        HttpPost httpPost;
+        String json;
         try {
+            json = mapper.writeValueAsString(dataArray.getValue());
             uriBuilder = new URIBuilder(getService().getEndpoint() + "CreateObservations");
-        } catch (URISyntaxException ex) {
-            throw new ServiceFailureException("Could not create uri", ex);
+            httpPost = new HttpPost(uriBuilder.build());
+        } catch (JsonProcessingException | URISyntaxException ex) {
+            throw new ServiceFailureException("Failed to create Observations.", ex);
         }
 
-        try {
-            final ObjectMapper mapper = ObjectMapperFactory.get();
-            String json = mapper.writeValueAsString(dataArray.getValue());
+        LOGGER.debug("Posting to: {}", httpPost.getURI());
+        httpPost.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
 
-            HttpPost httpPost = new HttpPost(uriBuilder.build());
-            LOGGER.debug("Posting to: {}", httpPost.getURI());
-            httpPost.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
+        try (CloseableHttpResponse response = getService().execute(httpPost)) {
 
-            response = getService().execute(httpPost);
             Utils.throwIfNotOk(httpPost, response);
 
             String jsonResponse = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
@@ -111,15 +113,8 @@ public class ObservationDao extends BaseDao<Observation> {
                 i++;
             }
 
-        } catch (IOException | URISyntaxException exc) {
+        } catch (IOException exc) {
             throw new ServiceFailureException("Failed to create Observations.", exc);
-        } finally {
-            try {
-                if (response != null) {
-                    response.close();
-                }
-            } catch (IOException ex) {
-            }
         }
         return result;
     }

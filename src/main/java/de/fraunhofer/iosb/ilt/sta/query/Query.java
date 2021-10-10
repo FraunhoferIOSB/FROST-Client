@@ -13,6 +13,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import org.apache.http.Consts;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -160,30 +161,25 @@ public class Query<T extends Entity<T>> implements QueryRequest<T>, QueryParamet
     @Override
     public EntityList<T> list() throws ServiceFailureException {
         EntityList<T> list = new EntityList<>(plural);
-
-        CloseableHttpResponse response = null;
+        HttpGet httpGet;
         try {
             URIBuilder uriBuilder = new URIBuilder(service.getFullPath(parent, plural).toURI());
             uriBuilder.addParameters(params);
-            HttpGet httpGet = new HttpGet(uriBuilder.build());
-            LOGGER.debug("Fetching: {}", httpGet.getURI());
-            httpGet.addHeader("Accept", ContentType.APPLICATION_JSON.getMimeType());
+            httpGet = new HttpGet(uriBuilder.build());
+        } catch (URISyntaxException ex) {
+            throw new ServiceFailureException("Failed to fetch entities from query.", ex);
+        }
 
-            response = service.execute(httpGet);
+        LOGGER.debug("Fetching: {}", httpGet.getURI());
+        httpGet.addHeader("Accept", ContentType.APPLICATION_JSON.getMimeType());
+
+        try (CloseableHttpResponse response = service.execute(httpGet)) {
             Utils.throwIfNotOk(httpGet, response);
-
             String json = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
             final ObjectMapper mapper = ObjectMapperFactory.get();
             list = mapper.readValue(json, plural.getTypeReference());
-        } catch (URISyntaxException | IOException exc) {
-            throw new ServiceFailureException("Failed to fetch entities from query.", exc);
-        } finally {
-            try {
-                if (response != null) {
-                    response.close();
-                }
-            } catch (IOException ex) {
-            }
+        } catch (IOException ex) {
+            throw new ServiceFailureException("Failed to fetch entities from query.", ex);
         }
 
         list.setService(service, entityClass);
@@ -197,27 +193,23 @@ public class Query<T extends Entity<T>> implements QueryRequest<T>, QueryParamet
         removeAllParams("$select");
         removeAllParams("$expand");
 
-        CloseableHttpResponse response = null;
+        HttpDelete httpDelete;
         try {
             URIBuilder uriBuilder = new URIBuilder(service.getFullPath(parent, plural).toURI());
             uriBuilder.addParameters(params);
-            HttpDelete httpDelete = new HttpDelete(uriBuilder.build());
-            LOGGER.debug("Deleting: {}", httpDelete.getURI());
-            httpDelete.addHeader("Accept", ContentType.APPLICATION_JSON.getMimeType());
+            httpDelete = new HttpDelete(uriBuilder.build());
+        } catch (URISyntaxException ex) {
+            throw new ServiceFailureException("Failed to delete from query.", ex);
+        }
 
-            response = service.execute(httpDelete);
+        LOGGER.debug("Deleting: {}", httpDelete.getURI());
+        httpDelete.addHeader("Accept", ContentType.APPLICATION_JSON.getMimeType());
+
+        try (CloseableHttpResponse response = service.execute(httpDelete)) {
             Utils.throwIfNotOk(httpDelete, response);
-
-        } catch (URISyntaxException | IOException exc) {
-            throw new ServiceFailureException("Failed to delete from query.", exc);
-        } finally {
-            try {
-                if (response != null) {
-                    response.close();
-                }
-            } catch (IOException exc) {
-                LOGGER.error("Exception closing response.", exc);
-            }
+            EntityUtils.consumeQuietly(response.getEntity());
+        } catch (IOException ex) {
+            throw new ServiceFailureException("Failed to delete from query.", ex);
         }
 
     }

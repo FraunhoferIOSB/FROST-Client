@@ -89,11 +89,10 @@ public class EntityList<T extends Entity<T>> implements EntityCollection<T> {
 
                 HttpGet httpGet = new HttpGet(nextLink);
                 httpGet.addHeader("Accept", ContentType.APPLICATION_JSON.getMimeType());
-                CloseableHttpResponse response = null;
                 EntityList<T> nextList;
-                try {
-                    LOGGER.debug("Fetching: {}", httpGet.getURI());
-                    response = service.execute(httpGet);
+                LOGGER.debug("Fetching: {}", httpGet.getURI());
+                try (CloseableHttpResponse response = service.execute(httpGet)) {
+
                     Utils.throwIfNotOk(httpGet, response);
 
                     String json = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
@@ -111,13 +110,6 @@ public class EntityList<T extends Entity<T>> implements EntityCollection<T> {
                     currentIterator = null;
                     nextLink = null;
                     return;
-                } finally {
-                    try {
-                        if (response != null) {
-                            response.close();
-                        }
-                    } catch (IOException ex) {
-                    }
                 }
                 currentIterator = nextList.iterator();
                 nextLink = nextList.getNextLink();
@@ -152,13 +144,12 @@ public class EntityList<T extends Entity<T>> implements EntityCollection<T> {
 
     @Override
     public void fetchNext() throws StatusCodeException {
-        CloseableHttpResponse response = null;
-        try {
-            HttpGet httpGet = new HttpGet(nextLink);
-            LOGGER.debug("Fetching: {}", httpGet.getURI());
-            httpGet.addHeader("Accept", ContentType.APPLICATION_JSON.getMimeType());
+        HttpGet httpGet = new HttpGet(nextLink);
+        LOGGER.debug("Fetching: {}", httpGet.getURI());
+        httpGet.addHeader("Accept", ContentType.APPLICATION_JSON.getMimeType());
 
-            response = service.execute(httpGet);
+        try (CloseableHttpResponse response = service.execute(httpGet)) {
+
             Utils.throwIfNotOk(httpGet, response);
 
             String json = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
@@ -170,13 +161,6 @@ public class EntityList<T extends Entity<T>> implements EntityCollection<T> {
             setNextLink(nextList.getNextLink());
         } catch (IOException ex) {
             LOGGER.error("Failed to fetch list.", ex);
-        } finally {
-            try {
-                if (response != null) {
-                    response.close();
-                }
-            } catch (IOException ex) {
-            }
         }
     }
 

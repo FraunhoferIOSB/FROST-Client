@@ -93,20 +93,25 @@ public abstract class BaseDao<T extends Entity<T>> implements Dao<T> {
             throw new IllegalArgumentException("Can not create entity, not a list");
         }
 
-        CloseableHttpResponse response = null;
+        final ObjectMapper mapper = ObjectMapperFactory.get();
+        URIBuilder uriBuilder;
+        String json;
+        HttpPost httpPost;
         try {
-            URIBuilder uriBuilder = new URIBuilder(service.getFullPath(parent, plural).toURI());
-            final ObjectMapper mapper = ObjectMapperFactory.get();
-            String json = mapper.writeValueAsString(entity);
+            uriBuilder = new URIBuilder(service.getFullPath(parent, plural).toURI());
+            json = mapper.writeValueAsString(entity);
+            httpPost = new HttpPost(uriBuilder.build());
+        } catch (URISyntaxException | JsonProcessingException ex) {
+            throw new ServiceFailureException("Failed to create entity.", ex);
+        }
 
-            HttpPost httpPost = new HttpPost(uriBuilder.build());
-            LOGGER.debug("Posting to: {}", httpPost.getURI());
-            httpPost.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
+        LOGGER.debug("Posting to: {}", httpPost.getURI());
+        httpPost.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
 
-            response = service.execute(httpPost);
+        try (CloseableHttpResponse response = service.execute(httpPost)) {
             Utils.throwIfNotOk(httpPost, response);
-
             Header locationHeader = response.getLastHeader("location");
+            EntityUtils.consumeQuietly(response.getEntity());
             if (locationHeader == null) {
                 throw new IllegalStateException("Server did not send a location header for the new entitiy.");
             }
@@ -116,15 +121,8 @@ public abstract class BaseDao<T extends Entity<T>> implements Dao<T> {
             String stringId = newLocation.substring(pos1, pos2);
             entity.setId(Id.tryToParse(stringId));
             entity.setService(service);
-        } catch (IOException | URISyntaxException exc) {
+        } catch (IOException exc) {
             throw new ServiceFailureException("Failed to create entity.", exc);
-        } finally {
-            try {
-                if (response != null) {
-                    response.close();
-                }
-            } catch (IOException ex) {
-            }
         }
 
     }
@@ -175,15 +173,12 @@ public abstract class BaseDao<T extends Entity<T>> implements Dao<T> {
 
     @Override
     public T find(URI uri) throws ServiceFailureException {
-        CloseableHttpResponse response = null;
-        try {
-            HttpGet httpGet = new HttpGet(uri);
-            LOGGER.debug("Fetching: {}", uri);
-            httpGet.addHeader("Accept", ContentType.APPLICATION_JSON.getMimeType());
+        HttpGet httpGet = new HttpGet(uri);
+        LOGGER.debug("Fetching: {}", uri);
+        httpGet.addHeader("Accept", ContentType.APPLICATION_JSON.getMimeType());
 
-            response = service.execute(httpGet);
+        try (CloseableHttpResponse response = service.execute(httpGet)) {
             Utils.throwIfNotOk(httpGet, response);
-
             String returnContent = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
             final ObjectMapper mapper = ObjectMapperFactory.get();
             T entity = mapper.readValue(returnContent, entityClass);
@@ -191,13 +186,6 @@ public abstract class BaseDao<T extends Entity<T>> implements Dao<T> {
             return entity;
         } catch (IOException | ParseException ex) {
             throw new ServiceFailureException(ex);
-        } finally {
-            try {
-                if (response != null) {
-                    response.close();
-                }
-            } catch (IOException ex) {
-            }
         }
     }
 
@@ -214,84 +202,71 @@ public abstract class BaseDao<T extends Entity<T>> implements Dao<T> {
 
     @Override
     public void update(T entity) throws ServiceFailureException {
+        final ObjectMapper mapper = ObjectMapperFactory.get();
         HttpPatch httpPatch;
-        CloseableHttpResponse response = null;
+        URIBuilder uriBuilder;
+        String json;
         try {
-            URIBuilder uriBuilder = new URIBuilder(service.getEndpoint().toString() + this.entityPath(entity.getId()));
-            final ObjectMapper mapper = ObjectMapperFactory.get();
-            String json = mapper.writeValueAsString(entity);
-
+            uriBuilder = new URIBuilder(service.getEndpoint().toString() + this.entityPath(entity.getId()));
+            json = mapper.writeValueAsString(entity);
             httpPatch = new HttpPatch(uriBuilder.build());
-            LOGGER.debug("Patching: {}", httpPatch.getURI());
-            httpPatch.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
-
-            response = service.execute(httpPatch);
-            Utils.throwIfNotOk(httpPatch, response);
-
         } catch (JsonProcessingException | URISyntaxException ex) {
             throw new ServiceFailureException(ex);
+        }
+
+        LOGGER.debug("Patching: {}", httpPatch.getURI());
+        httpPatch.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
+
+        try (CloseableHttpResponse response = service.execute(httpPatch)) {
+            Utils.throwIfNotOk(httpPatch, response);
+            EntityUtils.consumeQuietly(response.getEntity());
         } catch (IOException ex) {
             throw new ServiceFailureException(ex);
-        } finally {
-            try {
-                if (response != null) {
-                    response.close();
-                }
-            } catch (IOException ex) {
-            }
         }
     }
 
     @Override
     public void patch(T entity, List<JsonPatchOperation> patch) throws ServiceFailureException {
+        final ObjectMapper mapper = ObjectMapperFactory.get();
         HttpPatch httpPatch;
-        CloseableHttpResponse response = null;
+        URIBuilder uriBuilder;
+        String json;
         try {
-            URIBuilder uriBuilder = new URIBuilder(service.getEndpoint().toString() + this.entityPath(entity.getId()));
-            final ObjectMapper mapper = ObjectMapperFactory.get();
-            String json = mapper.writeValueAsString(patch);
-
+            uriBuilder = new URIBuilder(service.getEndpoint().toString() + this.entityPath(entity.getId()));
+            json = mapper.writeValueAsString(patch);
             httpPatch = new HttpPatch(uriBuilder.build());
-            LOGGER.debug("Patching: {} with patch {}", httpPatch.getURI(), patch);
-            httpPatch.setEntity(new StringEntity(json, APPLICATION_JSON_PATCH));
-
-            response = service.execute(httpPatch);
-            Utils.throwIfNotOk(httpPatch, response);
-
-        } catch (JsonProcessingException | URISyntaxException ex) {
+        } catch (URISyntaxException | JsonProcessingException ex) {
             throw new ServiceFailureException(ex);
+        }
+
+        LOGGER.debug("Patching: {} with patch {}", httpPatch.getURI(), patch);
+        httpPatch.setEntity(new StringEntity(json, APPLICATION_JSON_PATCH));
+
+        try (CloseableHttpResponse response = service.execute(httpPatch)) {
+            Utils.throwIfNotOk(httpPatch, response);
+            EntityUtils.consumeQuietly(response.getEntity());
         } catch (IOException ex) {
             throw new ServiceFailureException(ex);
-        } finally {
-            try {
-                if (response != null) {
-                    response.close();
-                }
-            } catch (IOException ex) {
-            }
         }
     }
 
     @Override
     public void delete(T entity) throws ServiceFailureException {
-        CloseableHttpResponse response = null;
+        URIBuilder uriBuilder;
+        HttpDelete httpDelete;
         try {
-            URIBuilder uriBuilder = new URIBuilder(service.getEndpoint().toString() + this.entityPath(entity.getId()));
-            HttpDelete httpDelete = new HttpDelete(uriBuilder.build());
-            LOGGER.debug("Deleting: {}", httpDelete.getURI());
-
-            response = service.execute(httpDelete);
-            Utils.throwIfNotOk(httpDelete, response);
-
-        } catch (IOException | URISyntaxException ex) {
+            uriBuilder = new URIBuilder(service.getEndpoint().toString() + this.entityPath(entity.getId()));
+            httpDelete = new HttpDelete(uriBuilder.build());
+        } catch (URISyntaxException ex) {
             throw new ServiceFailureException(ex);
-        } finally {
-            try {
-                if (response != null) {
-                    response.close();
-                }
-            } catch (IOException ex) {
-            }
+        }
+        LOGGER.debug("Deleting: {}", httpDelete.getURI());
+
+        try (CloseableHttpResponse response = service.execute(httpDelete)) {
+            Utils.throwIfNotOk(httpDelete, response);
+            EntityUtils.consumeQuietly(response.getEntity());
+        } catch (IOException ex) {
+            throw new ServiceFailureException(ex);
         }
     }
 

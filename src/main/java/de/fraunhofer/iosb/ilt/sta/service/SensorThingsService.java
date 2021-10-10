@@ -539,7 +539,6 @@ public class SensorThingsService implements MqttCallback {
     public void publish(String topic, Entity entity) throws MqttException {
         checkMqttConfigured();
         checkMqttConnected();
-        final ObjectMapper mapper = ObjectMapperFactory.get();
         try {
             mqttClient.publish(topic, new MqttMessage(ObjectMapperFactory.get().writeValueAsBytes(entity)));
         } catch (JsonProcessingException ex) {
@@ -578,13 +577,18 @@ public class SensorThingsService implements MqttCallback {
     }
 
     private MqttConfig getRemoteConfig() {
-        CloseableHttpResponse response = null;
+        HttpGet httpGet;
         try {
-            HttpGet httpGet = new HttpGet(getEndpoint().toURI());
             LOGGER.debug("Fetching: {}", getEndpoint().toURI());
+            httpGet = new HttpGet(getEndpoint().toURI());
             httpGet.addHeader("Accept", ContentType.APPLICATION_JSON.getMimeType());
+        } catch (URISyntaxException ex) {
+            LOGGER.error("Failed to get MQTT configuration.", ex);
+            return null;
+        }
 
-            response = execute(httpGet);
+        try (CloseableHttpResponse response = execute(httpGet)) {
+
             Utils.throwIfNotOk(httpGet, response);
 
             String returnContent = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
@@ -595,18 +599,9 @@ public class SensorThingsService implements MqttCallback {
                 return new MqttConfig(((List<String>) serverSettings.getExtensions().get(Extension.MQTT).get(TAG_MQTT_ENDPOINTS)).get(0));
             }
         } catch (IOException | ParseException ex) {
-            LOGGER.warn("");
+            LOGGER.error("Failed to get MQTT configuration.", ex);
         } catch (StatusCodeException ex) {
-            Logger.getLogger(SensorThingsService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(SensorThingsService.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                if (response != null) {
-                    response.close();
-                }
-            } catch (IOException ex) {
-            }
+            LOGGER.error("Failed to get MQTT configuration: {} - {}", ex.getStatusCode(), Utils.cleanForLogging(ex.getReturnedContent()), ex);
         }
         return null;
     }
