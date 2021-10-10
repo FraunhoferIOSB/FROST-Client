@@ -1,3 +1,11 @@
+# Release Version 0.39
+
+**Updates**
+* Added getClientBuilder and depricated setHttpClient as a means to modify the HttpClient.
+  This makes it possible for separate pieces of code to all change (separate) options on
+  the httpClient without discarding eachothers changes.
+
+
 # Release Version 0.38
 
 **Updates**

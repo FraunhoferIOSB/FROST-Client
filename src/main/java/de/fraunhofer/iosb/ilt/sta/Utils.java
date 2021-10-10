@@ -1,5 +1,6 @@
 package de.fraunhofer.iosb.ilt.sta;
 
+import de.fraunhofer.iosb.ilt.sta.service.SensorThingsService;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -170,17 +171,14 @@ public class Utils {
         }
     }
 
-    public static CloseableHttpClient createInsecureHttpClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+    public static void createInsecureHttpClient(SensorThingsService service) throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         SSLContext sslContext = SSLContextBuilder
                 .create()
                 .loadTrustMaterial(new TrustSelfSignedStrategy())
                 .build();
         HostnameVerifier allowAllHosts = new NoopHostnameVerifier();
         SSLConnectionSocketFactory connectionFactory = new SSLConnectionSocketFactory(sslContext, allowAllHosts);
-        return HttpClients
-                .custom()
-                .useSystemProperties()
-                .setSSLSocketFactory(connectionFactory)
-                .build();
+        service.getClientBuilder().setSSLSocketFactory(connectionFactory);
+        service.rebuildHttpClient();
     }
 }

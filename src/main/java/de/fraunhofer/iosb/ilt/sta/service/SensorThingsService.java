@@ -38,8 +38,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Consts;
 import org.apache.http.ParseException;
@@ -49,6 +47,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -70,11 +69,11 @@ public class SensorThingsService implements MqttCallback {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SensorThingsService.class);
 
     private URL endpoint;
+    private HttpClientBuilder clientBuilder;
     private CloseableHttpClient httpClient;
     private TokenManager tokenManager;
     private MqttClient mqttClient;
     private MqttConfig mqttConfig;
-    private boolean mqttAutoConfigChecked = false;
     private Map<String, Set<Consumer<MqttMessage>>> mqttSubscriptions = new HashMap<>();
     private SensorThingsAPIVersion version;
     /**
@@ -87,7 +86,6 @@ public class SensorThingsService implements MqttCallback {
      * endpoint url MUST be set before the service can be used.
      */
     public SensorThingsService() {
-        this.httpClient = HttpClients.createSystem();
     }
 
     /**
@@ -108,7 +106,6 @@ public class SensorThingsService implements MqttCallback {
      */
     public SensorThingsService(URL endpoint) throws MalformedURLException {
         setEndpoint(endpoint);
-        this.httpClient = HttpClients.createSystem();
     }
 
     /**
@@ -163,7 +160,6 @@ public class SensorThingsService implements MqttCallback {
             url += "/" + getVersion().getUrlPattern();
         }
         cleanupMqtt();
-        mqttAutoConfigChecked = false;
         mqttConfig = null;
         this.endpoint = new URL(url + "/");
     }
@@ -266,11 +262,12 @@ public class SensorThingsService implements MqttCallback {
      * @throws IOException in case of problems.
      */
     public CloseableHttpResponse execute(HttpRequestBase request) throws IOException {
+        final CloseableHttpClient client = getHttpClient();
         setTimeouts(request);
         if (tokenManager != null) {
             tokenManager.addAuthHeader(request);
         }
-        return httpClient.execute(request);
+        return client.execute(request);
     }
 
     private void setTimeouts(HttpRequestBase request) {
@@ -439,7 +436,7 @@ public class SensorThingsService implements MqttCallback {
      * @return This SensorThingsService.
      */
     public SensorThingsService setTokenManager(TokenManager tokenManager) {
-        if (tokenManager != null && tokenManager.getHttpClient() == null) {
+        if (tokenManager != null && httpClient != null) {
             tokenManager.setHttpClient(httpClient);
         }
         this.tokenManager = tokenManager;
@@ -459,6 +456,12 @@ public class SensorThingsService implements MqttCallback {
      * @return the client
      */
     public CloseableHttpClient getHttpClient() {
+        if (httpClient == null) {
+            httpClient = getClientBuilder().build();
+            if (tokenManager != null) {
+                tokenManager.setHttpClient(httpClient);
+            }
+        }
         return httpClient;
     }
 
@@ -466,9 +469,40 @@ public class SensorThingsService implements MqttCallback {
      * Set the httpclient used for requests.
      *
      * @param httpClient the client to set
+     * @deprecated (0.39) Use {@link #getClientBuilder() } to change the
+     * builder. Since the httpClient is immutable, once it is set, nothing can
+     * be changed. This means it is impossible for two separate pieces of code
+     * to both make changes to the httpClient.
      */
+    @Deprecated
     public void setHttpClient(CloseableHttpClient httpClient) {
+        LOGGER.warn("Avoid using setHttpClient!");
         this.httpClient = httpClient;
+    }
+
+    /**
+     * Get the Builder used to generate the httpClient. If changes are made to
+     * the builder after the httpClient is already generated, call {@link #rebuildHttpClient()
+     * } to trigger the httpClient to be built anew.
+     *
+     * The clientBuilder is initialised using: {@code HttpClients.custom().useSystemProperties()
+     * }
+     *
+     * @return The client Builder used to generate the httpClient.
+     */
+    public HttpClientBuilder getClientBuilder() {
+        if (clientBuilder == null) {
+            clientBuilder = HttpClients.custom().useSystemProperties();
+        }
+        return clientBuilder;
+    }
+
+    /**
+     * Triggers a rebuild of the httpClient, using the latest changes to the
+     * clientBuilder.
+     */
+    public void rebuildHttpClient() {
+        httpClient = null;
     }
 
     @Override

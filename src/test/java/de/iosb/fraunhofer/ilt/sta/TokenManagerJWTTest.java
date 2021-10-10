@@ -15,6 +15,7 @@ import java.net.URI;
 import java.net.URL;
 
 public class TokenManagerJWTTest {
+
     private String staRootUrl;
     private String authUrl;
     private String jwtId;
@@ -31,8 +32,8 @@ public class TokenManagerJWTTest {
         authUrl = System.getenv("AUTH_URL");
         jwtId = System.getenv("JWT_ID");
         jwtKey = System.getenv("JWT_KEY");
-        if (staRootUrl != null && authUrl != null &&
-                jwtId != null && jwtKey != null) {
+        if (staRootUrl != null && authUrl != null
+                && jwtId != null && jwtKey != null) {
             configured = true;
         }
     }
@@ -46,13 +47,12 @@ public class TokenManagerJWTTest {
         if (configured) {
             URL serviceEndpoint = new URL(staRootUrl);
             SensorThingsService service = new SensorThingsService();
-            service.setHttpClient(Utils.createInsecureHttpClient());
+            Utils.createInsecureHttpClient(service);
             service.setEndpoint(serviceEndpoint);
             TokenManagerJWT tokenMgr = new TokenManagerJWT()
                     .setJwtId(jwtId)
                     .setJwtKey(jwtKey)
-                    .setTokenServerUrl(authUrl)
-                    .setHttpClient(service.getHttpClient());
+                    .setTokenServerUrl(authUrl);
             service.setTokenManager(tokenMgr);
             ObservedProperty op = ObservedPropertyBuilder.builder()
                     .name("Test ObservedProperty")
