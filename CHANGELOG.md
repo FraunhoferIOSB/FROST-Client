@@ -4,6 +4,7 @@
 * Added getClientBuilder and depricated setHttpClient as a means to modify the HttpClient.
   This makes it possible for separate pieces of code to all change (separate) options on
   the httpClient without discarding eachothers changes.
+* Added StatusCode to message of StatusCodeException
 
 
 # Release Version 0.38
