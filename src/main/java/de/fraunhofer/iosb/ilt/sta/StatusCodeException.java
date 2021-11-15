@@ -14,7 +14,7 @@ public class StatusCodeException extends ServiceFailureException {
     private final String returnedContent;
 
     public StatusCodeException(String url, int statusCode, String statusMessage, String returnedContent) {
-        super("StatucCode: " + statusMessage + ": " + statusMessage);
+        super("StatusCode: " + statusCode + ": " + statusMessage);
         this.url = url;
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;
