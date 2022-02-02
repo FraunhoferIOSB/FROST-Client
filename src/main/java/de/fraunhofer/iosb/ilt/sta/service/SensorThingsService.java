@@ -711,7 +711,7 @@ public class SensorThingsService implements MqttCallback {
 
     @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LOGGER.trace("Publish completed.");
     }
 
     public SensorThingsAPIVersion getVersion() {
