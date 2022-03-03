@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.reflections8.Reflections;
+import org.reflections.Reflections;
 import org.slf4j.LoggerFactory;
 
 /**

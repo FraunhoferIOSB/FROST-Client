@@ -1,3 +1,10 @@
+# Release Version 0.42
+
+**Updates**
+* Bumped dependencies.
+* Changed Reflections version back to the original project, since it was re-activated.
+
+
 # Release Version 0.41
 
 **Updates**
