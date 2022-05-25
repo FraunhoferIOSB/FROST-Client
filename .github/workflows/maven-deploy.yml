@@ -48,4 +48,7 @@ jobs:
         GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+        OWASP_OSS_INDEX_USERNAME: ${{ secrets.OWASP_OSS_INDEX_USERNAME }}
+        OWASP_OSS_INDEX_APIKEY: ${{ secrets.OWASP_OSS_INDEX_APIKEY }}
       run: mvn -B deploy -P release --settings maven-ci-settings.xml
+

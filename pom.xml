@@ -121,6 +121,7 @@
 				<version>${owasp.version}</version>
 				<configuration>
 					<failBuildOnCVSS>8</failBuildOnCVSS>
+					<ossIndexServerId>OWASP_OSS_INDEX</ossIndexServerId>
 				</configuration>
 				<executions>
 					<execution>
