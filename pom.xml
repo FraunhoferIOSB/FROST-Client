@@ -4,7 +4,7 @@
 
 	<groupId>de.fraunhofer.iosb.ilt</groupId>
 	<artifactId>FROST-Client</artifactId>
-	<version>0.43</version>
+	<version>0.44-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>FROST-Client</name>
@@ -80,7 +80,7 @@
 		<url>https://github.com/FraunhoferIOSB/FROST-Client</url>
 		<connection>scm:git:git@github.com:FraunhoferIOSB/FROST-Client.git</connection>
 		<developerConnection>scm:git:git@github.com:FraunhoferIOSB/FROST-Client.git</developerConnection>
-		<tag>v0.43</tag>
+		<tag></tag>
 	</scm>
 
 	<issueManagement>
