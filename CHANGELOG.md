@@ -1,3 +1,9 @@
+# Release Version 0.44
+
+**Updates**
+* Bumped dependencies.
+
+
 # Release Version 0.43
 
 **Updates**
