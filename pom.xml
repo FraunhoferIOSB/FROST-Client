@@ -38,7 +38,7 @@
 		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
 		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
 		<mockito.version>4.10.0</mockito.version>
-		<owasp.version>7.4.4</owasp.version>
+		<dependency-check-maven.version>8.0.0</dependency-check-maven.version>
 		<jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
 
 		<org.eclipse.paho.client.mqttv3.version>1.2.5</org.eclipse.paho.client.mqttv3.version>
@@ -118,7 +118,7 @@
 			<plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
-				<version>${owasp.version}</version>
+				<version>${dependency-check-maven.version}</version>
 				<configuration>
 					<failBuildOnCVSS>8</failBuildOnCVSS>
 					<ossIndexServerId>OWASP_OSS_INDEX</ossIndexServerId>
