@@ -38,7 +38,7 @@
 		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
 		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
 		<mockito.version>5.1.1</mockito.version>
-		<dependency-check-maven.version>8.1.0</dependency-check-maven.version>
+		<dependency-check-maven.version>8.1.2</dependency-check-maven.version>
 		<jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
 
 		<org.eclipse.paho.client.mqttv3.version>1.2.5</org.eclipse.paho.client.mqttv3.version>
