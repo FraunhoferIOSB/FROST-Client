@@ -30,7 +30,7 @@
 		<json-patch.version>1.13</json-patch.version>
 		<junit.version>4.13.2</junit.version>
 
-		<maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 		<maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
 		<maven-gpg-plugin>3.0.1</maven-gpg-plugin>
 		<maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
