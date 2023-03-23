@@ -81,6 +81,7 @@ EntityList<Thing> things = service.things()
                             .orderBy("description")
                             .select("name","id","description")
                             .filter("")
+                            .expand()
                             .skip(5)
                             .top(10)
                             .list();
@@ -122,7 +123,6 @@ for (Datastream dataStream : dataStreams) {
 
 ```
 
-However, `$expand` does not work on queries yet.
 
 ### Loading referenced objects
 
@@ -134,6 +134,19 @@ Thing thing = service.things().find(1l,
                 .with(ExpandedEntity.from(EntityType.LOCATIONS)));
 EntityList<Location> locations = thing.getLocations();
 ```
+
+Or using a simple string to define the expand:
+
+```java
+EntityList<Thing> things = service.things().query()
+        .expand("Locations($select=name,encodingType,location)")
+        .list();
+for (Iterator<Thing> it = things.fullIterator(); it.hasNext();) {
+    Thing thing = it.next();
+    EntityList<Location> locations = thing.getLocations();
+}
+```
+
 
 ### DataArray for Observation creation
 
