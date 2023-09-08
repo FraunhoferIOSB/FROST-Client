@@ -20,11 +20,11 @@
 		<bintray.subject>fraunhoferiosb</bintray.subject>
 		<bintray.repo>Maven</bintray.repo>
 		<bintray.package>FROST-Client</bintray.package>
-		<commons-lang3.version>3.12.0</commons-lang3.version>
+		<commons-lang3.version>3.13.0</commons-lang3.version>
 		<httpclient.version>4.5.14</httpclient.version>
 		<jaxb-api.version>2.3.1</jaxb-api.version>
-		<jackson.version>2.14.2</jackson.version>
-		<jackson-databind.version>${jackson.version}</jackson-databind.version>
+		<jackson.version>2.15.2</jackson.version>
+		<jackson-databind.version>2.15.2</jackson-databind.version>
 		<jacksonGeojson.version>1.14</jacksonGeojson.version>
 		<jjwt.version>0.9.1</jjwt.version>
 		<json-patch.version>1.13</json-patch.version>
@@ -32,19 +32,19 @@
 
 		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 		<maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
-		<maven-gpg-plugin>3.0.1</maven-gpg-plugin>
+		<maven-gpg-plugin>3.1.0</maven-gpg-plugin>
 		<maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
 		<maven-nexus-staging-plugin>1.6.13</maven-nexus-staging-plugin>
-		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-		<mockito.version>5.2.0</mockito.version>
-		<dependency-check-maven.version>8.1.2</dependency-check-maven.version>
-		<jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+		<maven-release-plugin.version>3.0.1</maven-release-plugin.version>
+		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
+		<mockito.version>5.5.0</mockito.version>
+		<dependency-check-maven.version>8.4.0</dependency-check-maven.version>
+		<jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
 
 		<org.eclipse.paho.client.mqttv3.version>1.2.5</org.eclipse.paho.client.mqttv3.version>
 		<reflections.version>0.10.2</reflections.version>
-		<SensorThings-SWE-Common.version>0.9</SensorThings-SWE-Common.version>
-		<slf4j-api.version>2.0.6</slf4j-api.version>
+		<SensorThings-SWE-Common.version>0.10</SensorThings-SWE-Common.version>
+		<slf4j-api.version>2.0.9</slf4j-api.version>
 		<threeten-extra.version>1.7.2</threeten-extra.version>
 		<typetools.version>0.6.3</typetools.version>
 	</properties>
@@ -315,7 +315,7 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.4.6</version>
+			<version>1.4.11</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
