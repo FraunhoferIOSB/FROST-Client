@@ -552,13 +552,13 @@ public class EntityFormatterTest {
 
         final ObjectMapper mapper = ObjectMapperFactory.get();
         String json = mapper.writeValueAsString(entity);
-        assert (jsonEqual(expResult, json));
+        Assert.assertTrue(jsonEqual(expResult, json));
 
         TaskingCapability parsed = mapper.readValue(expResult, TaskingCapability.class);
         Assert.assertEquals(entity, parsed);
 
         String json2 = mapper.writeValueAsString(parsed);
-        assert (jsonEqual(expResult, json2));
+        Assert.assertTrue(jsonEqual(expResult, json2));
     }
 
 }

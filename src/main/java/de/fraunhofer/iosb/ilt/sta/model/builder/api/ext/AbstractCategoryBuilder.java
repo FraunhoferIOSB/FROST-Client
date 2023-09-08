@@ -58,10 +58,17 @@ public abstract class AbstractCategoryBuilder<T extends AbstractCategoryBuilder<
     }
 
     public T allowedValues(final List<String> values) {
-        if (getBuildingInstance().getConstraint() == null) {
-            getBuildingInstance().setConstraint(new AllowedTokens());
+        AllowedTokens constraint = getBuildingInstance().getConstraint();
+        if (constraint == null) {
+            constraint = new AllowedTokens();
+            getBuildingInstance().setConstraint(constraint);
         }
-        getBuildingInstance().getConstraint().getValue().addAll(values);
+        final List<String> value = constraint.getValue();
+        if (value == null) {
+            constraint.setValue(values);
+        } else {
+            value.addAll(values);
+        }
         return getSelf();
     }
 
