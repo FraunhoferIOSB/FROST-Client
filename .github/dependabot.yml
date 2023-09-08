@@ -5,6 +5,10 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    groups:
+      dependencies:
+        patterns:
+          - "*"
 
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
