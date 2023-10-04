@@ -26,14 +26,14 @@
 		<jackson.version>2.15.2</jackson.version>
 		<jackson-databind.version>2.15.2</jackson-databind.version>
 		<jacksonGeojson.version>1.14</jacksonGeojson.version>
-		<jjwt.version>0.9.1</jjwt.version>
+		<jjwt.version>0.12.0</jjwt.version>
 		<json-patch.version>1.13</json-patch.version>
 		<junit.version>4.13.2</junit.version>
 
 		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 		<maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
 		<maven-gpg-plugin>3.1.0</maven-gpg-plugin>
-		<maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
+		<maven-javadoc-plugin.version>3.6.0</maven-javadoc-plugin.version>
 		<maven-nexus-staging-plugin>1.6.13</maven-nexus-staging-plugin>
 		<maven-release-plugin.version>3.0.1</maven-release-plugin.version>
 		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
