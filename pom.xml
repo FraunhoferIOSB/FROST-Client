@@ -20,7 +20,7 @@
 		<bintray.subject>fraunhoferiosb</bintray.subject>
 		<bintray.repo>Maven</bintray.repo>
 		<bintray.package>FROST-Client</bintray.package>
-		<commons-lang3.version>3.13.0</commons-lang3.version>
+		<commons-lang3.version>3.14.0</commons-lang3.version>
 		<httpclient.version>4.5.14</httpclient.version>
 		<jaxb-api.version>2.3.1</jaxb-api.version>
 		<jackson.version>2.15.2</jackson.version>
