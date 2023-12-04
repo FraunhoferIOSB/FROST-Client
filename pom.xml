@@ -122,6 +122,7 @@
 				<configuration>
 					<failBuildOnCVSS>8</failBuildOnCVSS>
 					<ossIndexServerId>OWASP_OSS_INDEX</ossIndexServerId>
+                    <nvdApiServerId>NIST_NVD_API</nvdApiServerId>
 				</configuration>
 				<executions>
 					<execution>
