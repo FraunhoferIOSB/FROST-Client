@@ -5,8 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import de.fraunhofer.iosb.ilt.sta.jackson.customtyping.SweTypeIdResolver;
 
 /**
- *
- * @author Michael Jacoby
+ * Mixin to resolve SWE types from their type field.
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.CUSTOM, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonTypeIdResolver(SweTypeIdResolver.class)

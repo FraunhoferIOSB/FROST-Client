@@ -3,7 +3,8 @@ package de.fraunhofer.iosb.ilt.sta.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import java.io.IOException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -224,19 +225,19 @@ public class TokenManagerOpenIDConnect implements TokenManager<TokenManagerOpenI
 
     public boolean validateToken(String token) {
         try {
-            if (Jwts.parser().isSigned(token)) {
+            if (Jwts.parser().build().isSigned(token)) {
                 if (keyType != null) {
                     X509EncodedKeySpec spec = new X509EncodedKeySpec(apiKeyBytes);
                     KeyFactory fact = KeyFactory.getInstance(keyType);
                     PublicKey key = fact.generatePublic(spec);
-                    Jwts.parser().setSigningKey(key).parse(token);
+                    Jwts.parser().verifyWith(key).build().parse(token);
                 } else if (apiKeyBytes != null) {
-                    Jwts.parser().setSigningKey(apiKeyBytes).parse(token);
+                    Jwts.parser().verifyWith(Keys.hmacShaKeyFor(apiKeyBytes)).build().parse(token);
                 } else {
                     LOGGER.debug("Can not validate token, please set the signing key.");
                 }
             } else {
-                Jwts.parser().parse(token);
+                Jwts.parser().build().parse(token);
             }
             return true;
         } catch (SignatureException | NoSuchAlgorithmException | InvalidKeySpecException e) {
