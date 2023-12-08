@@ -33,12 +33,12 @@
 		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 		<maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
 		<maven-gpg-plugin>3.1.0</maven-gpg-plugin>
-		<maven-javadoc-plugin.version>3.6.2</maven-javadoc-plugin.version>
+		<maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
 		<maven-nexus-staging-plugin>1.6.13</maven-nexus-staging-plugin>
 		<maven-release-plugin.version>3.0.1</maven-release-plugin.version>
 		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
-		<mockito.version>5.7.0</mockito.version>
-		<dependency-check-maven.version>9.0.2</dependency-check-maven.version>
+		<mockito.version>5.8.0</mockito.version>
+		<dependency-check-maven.version>9.0.4</dependency-check-maven.version>
 		<jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
 
 		<org.eclipse.paho.client.mqttv3.version>1.2.5</org.eclipse.paho.client.mqttv3.version>
