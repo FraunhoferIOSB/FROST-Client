@@ -23,28 +23,28 @@
 		<commons-lang3.version>3.14.0</commons-lang3.version>
 		<httpclient.version>4.5.14</httpclient.version>
 		<jaxb-api.version>2.3.1</jaxb-api.version>
-		<jackson.version>2.16.0</jackson.version>
-		<jackson-databind.version>2.16.0</jackson-databind.version>
+		<jackson.version>2.16.1</jackson.version>
+		<jackson-databind.version>2.16.1</jackson-databind.version>
 		<jacksonGeojson.version>1.14</jacksonGeojson.version>
 		<jjwt.version>0.12.3</jjwt.version>
 		<json-patch.version>1.13</json-patch.version>
 		<junit.version>4.13.2</junit.version>
 
-		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+		<maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
 		<maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
 		<maven-gpg-plugin>3.1.0</maven-gpg-plugin>
-		<maven-javadoc-plugin.version>3.6.2</maven-javadoc-plugin.version>
+		<maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
 		<maven-nexus-staging-plugin>1.6.13</maven-nexus-staging-plugin>
 		<maven-release-plugin.version>3.0.1</maven-release-plugin.version>
 		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
-		<mockito.version>5.7.0</mockito.version>
-		<dependency-check-maven.version>9.0.2</dependency-check-maven.version>
+		<mockito.version>5.8.0</mockito.version>
+		<dependency-check-maven.version>9.0.7</dependency-check-maven.version>
 		<jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
 
 		<org.eclipse.paho.client.mqttv3.version>1.2.5</org.eclipse.paho.client.mqttv3.version>
 		<reflections.version>0.10.2</reflections.version>
 		<SensorThings-SWE-Common.version>0.10</SensorThings-SWE-Common.version>
-		<slf4j-api.version>2.0.9</slf4j-api.version>
+		<slf4j-api.version>2.0.10</slf4j-api.version>
 		<threeten-extra.version>1.7.2</threeten-extra.version>
 		<typetools.version>0.6.3</typetools.version>
 	</properties>
