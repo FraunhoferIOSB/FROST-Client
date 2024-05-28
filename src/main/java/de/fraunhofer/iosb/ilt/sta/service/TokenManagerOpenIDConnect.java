@@ -199,7 +199,7 @@ public class TokenManagerOpenIDConnect implements TokenManager<TokenManagerOpenI
         // If tokens are valid for less than 20 seconds assume they're expired.
         // unless the token is valid for less than 20 seconds to begin with.
         targetTime.add(Calendar.SECOND, Math.max(refreshExpireDuration - 20, 20));
-        if (refreshExpireTime.before(targetTime)) {
+        if (refreshTask != null && refreshExpireTime.before(targetTime)) {
             // The old refresh time is before the one we have, so we cancel the old one.
             refreshTask.cancel();
             refreshTask = null;
