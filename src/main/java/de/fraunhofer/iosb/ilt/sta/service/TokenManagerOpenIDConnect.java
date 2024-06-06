@@ -112,6 +112,7 @@ public class TokenManagerOpenIDConnect implements TokenManager<TokenManagerOpenI
             List<NameValuePair> parameters = new ArrayList<>();
             parameters.add(new BasicNameValuePair("grant_type", "refresh_token"));
             parameters.add(new BasicNameValuePair("refresh_token", refreshToken));
+            parameters.add(new BasicNameValuePair("client_id", clientId));
             tokenRequest.setEntity(new UrlEncodedFormEntity(parameters));
 
             response = client.execute(tokenRequest);
