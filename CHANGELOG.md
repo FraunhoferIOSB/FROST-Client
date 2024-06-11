@@ -1,3 +1,11 @@
+# Release Version 0.45
+
+**Updates**
+* Bumped dependencies.
+* Updated minimum required Java version to 11.
+* Fixed #288: various issues with OIDC refresh tokens.
+
+
 # Release Version 0.44
 
 **Updates**
