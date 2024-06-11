@@ -27,7 +27,7 @@ Add the dependency:
 <dependency>
     <groupId>de.fraunhofer.iosb.ilt</groupId>
     <artifactId>FROST-Client</artifactId>
-    <version>0.44</version>
+    <version>0.45</version>
 </dependency>
 
 ```
@@ -36,7 +36,7 @@ Add the dependency:
 
 Add the dependency:
 ```gradle
-compile 'de.fraunhofer.iosb.ilt:FROST-Client:0.44'
+compile 'de.fraunhofer.iosb.ilt:FROST-Client:0.45'
 ```
 
 ## API
@@ -48,7 +48,7 @@ The `SensorThingsService` class is central to the library. An instance of it rep
 The source code below demonstrates the CRUD operations for Thing objects. Operations for other entities work similarly.
 
 ```java
-URL serviceEndpoint = new URL("http://example.org/v1.0/");
+URL serviceEndpoint = new URL("http://example.org/v1.1/");
 SensorThingsService service = new SensorThingsService(serviceEndpoint);
 ```
 
