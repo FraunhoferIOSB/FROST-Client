@@ -26,7 +26,7 @@
 		<jackson.version>2.17.1</jackson.version>
 		<jackson-databind.version>2.17.1</jackson-databind.version>
 		<jacksonGeojson.version>1.14</jacksonGeojson.version>
-		<jjwt.version>0.12.5</jjwt.version>
+		<jjwt.version>0.12.6</jjwt.version>
 		<json-patch.version>1.13</json-patch.version>
 		<junit.version>4.13.2</junit.version>
 
@@ -35,10 +35,10 @@
 		<maven-gpg-plugin>3.2.4</maven-gpg-plugin>
 		<maven-javadoc-plugin.version>3.7.0</maven-javadoc-plugin.version>
 		<maven-nexus-staging-plugin>1.7.0</maven-nexus-staging-plugin>
-		<maven-release-plugin.version>3.0.1</maven-release-plugin.version>
+		<maven-release-plugin.version>3.1.0</maven-release-plugin.version>
 		<maven-source-plugin.version>3.3.1</maven-source-plugin.version>
 		<mockito.version>5.12.0</mockito.version>
-		<dependency-check-maven.version>9.2.0</dependency-check-maven.version>
+		<dependency-check-maven.version>10.0.0</dependency-check-maven.version>
 		<jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
 
 		<org.eclipse.paho.client.mqttv3.version>1.2.5</org.eclipse.paho.client.mqttv3.version>
