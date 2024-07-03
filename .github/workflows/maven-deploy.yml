@@ -35,6 +35,12 @@ jobs:
         distribution: 'adopt'
         java-version: 11
 
+    - name: Get Date
+      id: get-date
+      run: |
+        echo "date=$(/bin/date -u "+%Y-%m-%dT%H:%M:%S")" >> $GITHUB_OUTPUT
+      shell: bash
+
     - name: Cache maven repository
       uses: actions/cache@v4
       with:
@@ -47,7 +53,8 @@ jobs:
       with:
         path: |
           ~/.m2/repository/org/owasp/dependency-check-data
-        key: ${{ runner.os }}-maven-owasp-cvedb
+        key: ${{ runner.os }}-maven-owasp-cvedb-${{ steps.get-date.outputs.date }}
+        restore-keys: ${{ runner.os }}-maven-owasp-cvedb
 
     - name: Update CVD Database
       env:
@@ -62,7 +69,7 @@ jobs:
       with:
         path: |
           ~/.m2/repository/org/owasp/dependency-check-data
-        key: ${{ runner.os }}-maven-owasp-cvedb
+        key: ${{ runner.os }}-maven-owasp-cvedb-${{ steps.get-date.outputs.date }}
 
     - name: Build with Maven
       env:
