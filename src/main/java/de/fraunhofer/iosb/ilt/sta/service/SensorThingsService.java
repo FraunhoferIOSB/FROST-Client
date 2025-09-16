@@ -558,8 +558,7 @@ public class SensorThingsService implements MqttCallback {
                 LOGGER.warn("could not parse payload received via MQTT");
             }
         };
-        subscribe(topic, typedHandler);
-        return new MqttSubscription(topic, typedHandler);
+        return subscribe(topic, typedHandler);
     }
 
     /**
