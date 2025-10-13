@@ -35,8 +35,8 @@
 		<maven-release-plugin.version>3.1.1</maven-release-plugin.version>
 		<maven-source-plugin.version>3.3.1</maven-source-plugin.version>
 		<mockito.version>5.20.0</mockito.version>
-		<dependency-check-maven.version>12.1.6</dependency-check-maven.version>
-		<jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
+		<dependency-check-maven.version>12.1.8</dependency-check-maven.version>
+		<jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
 
 		<org.eclipse.paho.client.mqttv3.version>1.2.5</org.eclipse.paho.client.mqttv3.version>
 		<reflections.version>0.10.2</reflections.version>
@@ -44,7 +44,7 @@
 		<slf4j-api.version>2.0.17</slf4j-api.version>
 		<threeten-extra.version>1.8.0</threeten-extra.version>
 		<typetools.version>0.6.3</typetools.version>
-		<version.logback>1.5.18</version.logback>
+		<version.logback>1.5.19</version.logback>
 	</properties>
 
 	<licenses>
