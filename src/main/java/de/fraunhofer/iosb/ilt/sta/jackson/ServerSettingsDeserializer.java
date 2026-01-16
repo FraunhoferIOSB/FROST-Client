@@ -32,7 +32,7 @@ public class ServerSettingsDeserializer extends StdDeserializer<ServerSettings> 
 
     @Override
     public ServerSettings deserialize(JsonParser parser, DeserializationContext context)
-            throws IOException, JsonProcessingException {
+            throws IOException, JacksonException {
         ServerSettings result = new ServerSettings();
         ObjectMapper mapper = new ObjectMapper();
 

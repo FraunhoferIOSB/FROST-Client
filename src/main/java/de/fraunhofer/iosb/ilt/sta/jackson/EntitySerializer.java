@@ -34,7 +34,7 @@ public class EntitySerializer extends JsonSerializer<Entity> {
 
     @Override
     public void serialize(Entity entity, JsonGenerator gen, SerializerProvider serializers)
-            throws IOException, JsonProcessingException {
+            throws IOException, JacksonException {
         gen.writeStartObject();
 
         SerializationConfig config = serializers.getConfig();

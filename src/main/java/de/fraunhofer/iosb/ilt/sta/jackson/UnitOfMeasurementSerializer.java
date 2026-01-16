@@ -17,7 +17,7 @@ public class UnitOfMeasurementSerializer extends JsonSerializer<UnitOfMeasuremen
 
     @Override
     public void serialize(UnitOfMeasurement value, JsonGenerator gen, SerializerProvider serializers)
-            throws IOException, JsonProcessingException {
+            throws IOException, JacksonException {
         gen.writeStartObject();
         gen.writeFieldName("name");
         gen.writeString(value.getName());

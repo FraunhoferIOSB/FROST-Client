@@ -598,7 +598,7 @@ public class SensorThingsService implements MqttCallback {
         checkMqttConnected();
         try {
             mqttClient.publish(topic, new MqttMessage(ObjectMapperFactory.get().writeValueAsBytes(entity)));
-        } catch (JsonProcessingException ex) {
+        } catch (JacksonException ex) {
             throw new MqttException("Could not process JSON", ex);
         } catch (org.eclipse.paho.client.mqttv3.MqttException ex) {
             throw new MqttException("Error publishing via MQTT", ex);

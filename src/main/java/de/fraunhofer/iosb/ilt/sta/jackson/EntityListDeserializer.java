@@ -53,7 +53,7 @@ public class EntityListDeserializer<T extends Entity<T>> extends StdDeserializer
 
     @Override
     public EntityList<T> deserialize(JsonParser parser, DeserializationContext context)
-            throws IOException, JsonProcessingException {
+            throws IOException, JacksonException {
 
         final EntityList<T> entities = new EntityList<>(EntityType.listForClass(type));
 

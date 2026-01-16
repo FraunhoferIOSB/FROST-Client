@@ -19,7 +19,7 @@ public class LocationSerializer extends StdSerializer<Object> {
 
     @Override
     public void serialize(Object value, JsonGenerator gen, SerializerProvider serializers)
-            throws IOException, JsonProcessingException {
+            throws IOException, JacksonException {
         if (value instanceof GeoJsonObject) {
             new ObjectMapper().writerFor(GeoJsonObject.class).writeValue(gen, value);
         } else {

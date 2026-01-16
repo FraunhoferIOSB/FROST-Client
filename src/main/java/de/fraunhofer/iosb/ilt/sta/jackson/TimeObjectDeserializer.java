@@ -22,7 +22,7 @@ public class TimeObjectDeserializer extends StdDeserializer<TimeObject> {
 
     @Override
     public TimeObject deserialize(JsonParser parser, DeserializationContext context)
-            throws IOException, JsonProcessingException {
+            throws IOException, JacksonException {
         return TimeObject.parse(((JsonNode) parser.getCodec().readTree(parser)).asText());
     }
 }

@@ -6,7 +6,8 @@ PROJECT_ROOT="."  # Pfad zu deinem Projekt
 declare -A PACKAGES=(
 #    ["com.fasterxml.jackson.core"]="tools.jackson.core"
 #    ["com.fasterxml.jackson.databind"]="tools.jackson.databind"
-    ["tools.jackson.core.JsonProcessingException"]="tools.jackson.core.JacksonException"
+    #    ["tools.jackson.core.JsonProcessingException"]="tools.jackson.core.JacksonException"
+    ["JsonProcessingException"]="JacksonException"
 )
 
 # Iteriere über alle Dateien

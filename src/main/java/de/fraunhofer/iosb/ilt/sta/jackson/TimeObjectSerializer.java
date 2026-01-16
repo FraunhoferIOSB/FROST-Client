@@ -14,7 +14,7 @@ public class TimeObjectSerializer extends JsonSerializer<TimeObject> {
 
     @Override
     public void serialize(TimeObject value, JsonGenerator gen, SerializerProvider serializers)
-            throws IOException, JsonProcessingException {
+            throws IOException, JacksonException {
         gen.writeString(value.toString());
     }
 }

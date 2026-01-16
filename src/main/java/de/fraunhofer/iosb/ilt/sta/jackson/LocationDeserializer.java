@@ -29,7 +29,7 @@ public class LocationDeserializer extends StdDeserializer<Object> {
     }
 
     @Override
-    public Object deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
+    public Object deserialize(JsonParser parser, DeserializationContext context) throws IOException, JacksonException {
         final ObjectCodec codec = parser.getCodec();
         TreeNode tree = codec.readTree(parser);
         return tryConvertTree(tree, codec);
@@ -59,7 +59,7 @@ public class LocationDeserializer extends StdDeserializer<Object> {
         return tree;
     }
 
-    public static Object deserialize(String text, ObjectMapper mapper) throws JsonProcessingException {
+    public static Object deserialize(String text, ObjectMapper mapper) throws JacksonException {
         TreeNode tree = mapper.readTree(text);
         return tryConvertTree(tree, mapper);
     }

@@ -81,7 +81,7 @@ public class ObservationDao extends BaseDao<Observation> {
             json = mapper.writeValueAsString(dataArray.getValue());
             uriBuilder = new URIBuilder(getService().getEndpoint() + "CreateObservations");
             httpPost = new HttpPost(uriBuilder.build());
-        } catch (JsonProcessingException | URISyntaxException ex) {
+        } catch (JacksonException | URISyntaxException ex) {
             throw new ServiceFailureException("Failed to create Observations.", ex);
         }
 
