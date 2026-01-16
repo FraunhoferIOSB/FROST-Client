@@ -1,7 +1,7 @@
 package de.fraunhofer.iosb.ilt.sta.jackson;
 
 import tools.jackson.core.JsonGenerator;
-import tools.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.SerializerProvider;
 import tools.jackson.databind.ser.std.StdSerializer;

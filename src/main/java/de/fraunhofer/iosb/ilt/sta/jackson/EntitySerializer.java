@@ -5,7 +5,7 @@ import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import tools.jackson.core.JsonGenerator;
-import tools.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
 import tools.jackson.databind.BeanDescription;
 import tools.jackson.databind.JsonSerializer;
 import tools.jackson.databind.SerializationConfig;

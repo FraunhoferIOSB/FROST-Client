@@ -1,7 +1,7 @@
 package de.fraunhofer.iosb.ilt.sta.jackson;
 
 import tools.jackson.core.JsonParser;
-import tools.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonToken;
 import tools.jackson.databind.BeanProperty;
 import tools.jackson.databind.DeserializationContext;

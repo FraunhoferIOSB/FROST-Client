@@ -1,6 +1,6 @@
 package de.fraunhofer.iosb.ilt.sta.service;
 
-import tools.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatchOperation;
