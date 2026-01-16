@@ -6,9 +6,8 @@ import tools.jackson.core.JsonToken;
 import tools.jackson.databind.BeanProperty;
 import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.JavaType;
-import tools.jackson.databind.JsonDeserializer;
-import tools.jackson.databind.JsonMappingException;
-import tools.jackson.databind.deser.ContextualDeserializer;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.deser.ContextualKeyDeserializer;
 import tools.jackson.databind.deser.std.StdDeserializer;
 import de.fraunhofer.iosb.ilt.sta.model.Entity;
 import static de.fraunhofer.iosb.ilt.sta.model.Entity.AT_IOT_COUNT;
@@ -21,7 +20,7 @@ import java.util.Iterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EntityListDeserializer<T extends Entity<T>> extends StdDeserializer<EntityList<T>> implements ContextualDeserializer {
+public class EntityListDeserializer<T extends Entity<T>> extends StdDeserializer<EntityList<T>> {
 
     private static final long serialVersionUID = 8376494553925868647L;
     private static final Logger LOGGER = LoggerFactory.getLogger(EntityListDeserializer.class);
@@ -39,7 +38,7 @@ public class EntityListDeserializer<T extends Entity<T>> extends StdDeserializer
 
     @SuppressWarnings("unchecked")
     @Override
-    public JsonDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) throws JsonMappingException {
+    public ValueDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) throws JacksonException {
         final JavaType wrapperType;
         if (property == null) {
             wrapperType = ctxt.getContextualType();
@@ -53,11 +52,11 @@ public class EntityListDeserializer<T extends Entity<T>> extends StdDeserializer
 
     @Override
     public EntityList<T> deserialize(JsonParser parser, DeserializationContext context)
-            throws IOException, JacksonException {
+            throws JacksonException {
 
         final EntityList<T> entities = new EntityList<>(EntityType.listForClass(type));
-
-        JsonToken currentToken = parser.getCurrentToken();
+        
+        JsonToken currentToken = parser.currentToken();
         if (currentToken == JsonToken.START_ARRAY) {
             // Direct array, probably expanded.
             JsonToken nextToken = parser.nextToken();
@@ -77,8 +76,8 @@ public class EntityListDeserializer<T extends Entity<T>> extends StdDeserializer
                         done = true;
                         break;
 
-                    case FIELD_NAME:
-                        String fieldName = parser.getCurrentName();
+                    case PROPERTY_NAME:
+                        String fieldName = parser.currentName();
                         JsonToken valueToken = parser.nextToken();
                         switch (fieldName) {
                             case AT_IOT_COUNT:
