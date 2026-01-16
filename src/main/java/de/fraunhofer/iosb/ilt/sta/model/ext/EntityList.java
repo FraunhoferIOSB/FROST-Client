@@ -1,6 +1,6 @@
 package de.fraunhofer.iosb.ilt.sta.model.ext;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import de.fraunhofer.iosb.ilt.sta.StatusCodeException;
 import de.fraunhofer.iosb.ilt.sta.Utils;
 import de.fraunhofer.iosb.ilt.sta.jackson.ObjectMapperFactory;

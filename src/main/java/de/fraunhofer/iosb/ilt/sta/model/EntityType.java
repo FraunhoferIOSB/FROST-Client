@@ -1,6 +1,6 @@
 package de.fraunhofer.iosb.ilt.sta.model;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import tools.jackson.core.type.TypeReference;
 import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
 import java.util.Arrays;
 import java.util.HashMap;

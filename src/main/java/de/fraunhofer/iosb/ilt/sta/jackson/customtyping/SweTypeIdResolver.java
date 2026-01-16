@@ -1,9 +1,9 @@
 package de.fraunhofer.iosb.ilt.sta.jackson.customtyping;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.DatabindContext;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
+import tools.jackson.databind.DatabindContext;
+import tools.jackson.databind.JavaType;
+import tools.jackson.databind.jsontype.TypeIdResolver;
 import de.fraunhofer.iosb.ilt.swe.common.AbstractSWEIdentifiable;
 import de.fraunhofer.iosb.ilt.swe.common.constraint.AbstractConstraint;
 import java.io.IOException;

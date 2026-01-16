@@ -1,15 +1,15 @@
 package de.fraunhofer.iosb.ilt.sta.jackson;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.databind.BeanProperty;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JsonProcessingException;
+import tools.jackson.core.JsonToken;
+import tools.jackson.databind.BeanProperty;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JavaType;
+import tools.jackson.databind.JsonDeserializer;
+import tools.jackson.databind.JsonMappingException;
+import tools.jackson.databind.deser.ContextualDeserializer;
+import tools.jackson.databind.deser.std.StdDeserializer;
 import de.fraunhofer.iosb.ilt.sta.model.Entity;
 import static de.fraunhofer.iosb.ilt.sta.model.Entity.AT_IOT_COUNT;
 import static de.fraunhofer.iosb.ilt.sta.model.Entity.AT_IOT_NEXT_LINK;

@@ -1,13 +1,13 @@
 package de.fraunhofer.iosb.ilt.sta.jackson;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.core.TreeNode;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.databind.node.ValueNode;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JsonProcessingException;
+import tools.jackson.core.ObjectCodec;
+import tools.jackson.core.TreeNode;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.databind.node.ValueNode;
 import java.io.IOException;
 import org.geojson.GeoJsonObject;
 import org.slf4j.Logger;

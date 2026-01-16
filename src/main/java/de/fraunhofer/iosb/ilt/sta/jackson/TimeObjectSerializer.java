@@ -1,9 +1,9 @@
 package de.fraunhofer.iosb.ilt.sta.jackson;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.core.JsonProcessingException;
+import tools.jackson.databind.JsonSerializer;
+import tools.jackson.databind.SerializerProvider;
 import de.fraunhofer.iosb.ilt.sta.model.TimeObject;
 import java.io.IOException;
 

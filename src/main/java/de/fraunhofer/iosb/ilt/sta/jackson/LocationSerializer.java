@@ -1,10 +1,10 @@
 package de.fraunhofer.iosb.ilt.sta.jackson;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.core.JsonProcessingException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializerProvider;
+import tools.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
 import org.geojson.GeoJsonObject;
 

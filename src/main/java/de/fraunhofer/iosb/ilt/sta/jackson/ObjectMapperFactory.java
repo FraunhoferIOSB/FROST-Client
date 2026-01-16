@@ -1,9 +1,9 @@
 package de.fraunhofer.iosb.ilt.sta.jackson;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import de.fraunhofer.iosb.ilt.swe.common.AbstractDataComponent;
 import de.fraunhofer.iosb.ilt.swe.common.AbstractSWEIdentifiable;

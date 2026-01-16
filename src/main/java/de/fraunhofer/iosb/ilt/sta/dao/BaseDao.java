@@ -1,7 +1,7 @@
 package de.fraunhofer.iosb.ilt.sta.dao;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JsonProcessingException;
+import tools.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatchOperation;
 import de.fraunhofer.iosb.ilt.sta.MqttException;
 import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
