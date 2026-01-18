@@ -30,9 +30,9 @@ public class IdDeserializer extends StdDeserializer<Id> {
     // Patch submitted.
     @Override
     public Id deserialize(JsonParser parser, DeserializationContext context)
-            throws IOException, JacksonException {
-
-        JsonNode node = parser.getCodec().readTree(parser);
+            throws JacksonException {
+    	
+        JsonNode node = context.readTree(parser);
         if (node.isNumber()) {
             return new IdLong(node.asLong());
         }
