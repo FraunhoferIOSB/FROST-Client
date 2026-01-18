@@ -60,13 +60,13 @@ public class EntitySerializer extends StdSerializer<Entity> {
                 Entity subEntity = (Entity) rawValue;
                 if (subEntity.getId() != null) {
                     // It's a referenced entity. -> <Entity>: { "@iot.id": <id> }
-                    gen.writeFieldName(rawValue.getClass().getSimpleName());
+                    gen.writeName(rawValue.getClass().getSimpleName());
                     gen.writeStartObject();
-                    gen.writeFieldName("@iot.id");
+                    gen.writeName("@iot.id");
                     ((Entity) rawValue).getId().writeTo(gen);
                     gen.writeEndObject();
                 } else {
-                    gen.writeFieldName(rawValue.getClass().getSimpleName());
+                    gen.writeName(rawValue.getClass().getSimpleName());
                     serialize(subEntity, gen, serializers);
                 }
             } else if (rawValue instanceof EntityList) {
@@ -75,7 +75,7 @@ public class EntitySerializer extends StdSerializer<Entity> {
                     continue;
                 }
                 // Ignore collections during serialization.
-                gen.writeFieldName(entityList.getType().getName());
+                gen.writeName(entityList.getType().getName());
                 gen.writeStartArray();
                 for (Object sub : entityList) {
                     if (sub instanceof Entity) {
@@ -84,7 +84,7 @@ public class EntitySerializer extends StdSerializer<Entity> {
                             serialize(subEntity, gen, serializers);
                         } else {
                             gen.writeStartObject();
-                            gen.writeFieldName("@iot.id");
+                            gen.writeName("@iot.id");
                             subEntity.getId().writeTo(gen);
                             gen.writeEndObject();
                         }
