@@ -9,6 +9,7 @@ import tools.jackson.core.JacksonException;
 import tools.jackson.databind.BeanDescription;
 import tools.jackson.databind.JsonSerializer;
 import tools.jackson.databind.SerializationConfig;
+import tools.jackson.databind.SerializationContext;
 import tools.jackson.databind.SerializerProvider;
 import tools.jackson.databind.annotation.JsonSerialize;
 import tools.jackson.databind.introspect.AnnotatedMember;
@@ -16,6 +17,8 @@ import tools.jackson.databind.introspect.BeanPropertyDefinition;
 import tools.jackson.databind.jsontype.TypeSerializer;
 import tools.jackson.databind.ser.BeanPropertyWriter;
 import tools.jackson.databind.ser.std.NullSerializer;
+import tools.jackson.databind.ser.std.StdSerializer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
@@ -28,13 +31,17 @@ import java.util.List;
  * @author Nils Sommer
  *
  */
-public class EntitySerializer extends JsonSerializer<Entity> {
+public class EntitySerializer extends StdSerializer<Entity> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EntitySerializer.class);
+    public EntitySerializer() {
+		super(Entity.class);
+	}
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(EntitySerializer.class);
 
     @Override
-    public void serialize(Entity entity, JsonGenerator gen, SerializerProvider serializers)
-            throws IOException, JacksonException {
+    //public void serialize(Entity entity, JsonGenerator gen, SerializerProvider serializers) throws IOException, JacksonException {
+    public void serialize(Entity value, JsonGenerator gen, SerializationContext provider) throws JacksonException {
         gen.writeStartObject();
 
         SerializationConfig config = serializers.getConfig();
@@ -124,4 +131,6 @@ public class EntitySerializer extends JsonSerializer<Entity> {
 
         gen.writeEndObject();
     }
+
+	
 }
