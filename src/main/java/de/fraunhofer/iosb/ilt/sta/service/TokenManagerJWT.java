@@ -1,5 +1,6 @@
 package de.fraunhofer.iosb.ilt.sta.service;
 
+import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -104,7 +105,7 @@ public class TokenManagerJWT implements TokenManager<TokenManagerJWT> {
                 LOGGER.debug("Token: {}", accessToken);
 
                 return accessToken;
-            } catch (IOException ex) {
+            } catch (JacksonException ex) {
                 LOGGER.error("Failed to parse response.", ex);
                 return null;
             }
