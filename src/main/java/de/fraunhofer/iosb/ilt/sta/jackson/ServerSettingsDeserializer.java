@@ -32,7 +32,7 @@ public class ServerSettingsDeserializer extends StdDeserializer<ServerSettings> 
 
     @Override
     public ServerSettings deserialize(JsonParser parser, DeserializationContext context)
-            throws IOException, JacksonException {
+            throws JacksonException {
         ServerSettings result = new ServerSettings();
         ObjectMapper mapper = new ObjectMapper();
 
@@ -40,7 +40,7 @@ public class ServerSettingsDeserializer extends StdDeserializer<ServerSettings> 
         if (!root.has(ServerSettings.TAG_EXTENSIONS)) {
             context.reportInputMismatch(ServerSettings.class, "mandatory property '%s' missing", ServerSettings.TAG_EXTENSIONS);
         }
-        root.get(ServerSettings.TAG_EXTENSIONS).elements().forEachRemaining(x -> {
+        root.get(ServerSettings.TAG_EXTENSIONS).forEach(x -> {
             String extensionName = x.asText();
             ServerSettings.Extension extension = ServerSettings.Extension.fromName(extensionName);
             if (extension == null) {
