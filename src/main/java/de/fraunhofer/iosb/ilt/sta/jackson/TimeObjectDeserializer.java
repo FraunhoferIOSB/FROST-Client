@@ -6,13 +6,14 @@ import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.deser.std.StdDeserializer;
 import de.fraunhofer.iosb.ilt.sta.model.TimeObject;
-import java.io.IOException;
+import java.io.Serializable;
+
 import org.threeten.extra.Interval;
 
 /**
  * Deserializer for TimeObject instances.
  */
-public class TimeObjectDeserializer extends StdDeserializer<TimeObject> {
+public class TimeObjectDeserializer extends StdDeserializer<TimeObject> implements Serializable {
 
     private static final long serialVersionUID = 3674342381623629828L;
 
@@ -22,7 +23,7 @@ public class TimeObjectDeserializer extends StdDeserializer<TimeObject> {
 
     @Override
     public TimeObject deserialize(JsonParser parser, DeserializationContext context)
-            throws IOException, JacksonException {
-        return TimeObject.parse(((JsonNode) parser.getCodec().readTree(parser)).asText());
+            throws JacksonException {
+        return TimeObject.parse(((JsonNode) parser.objectReadContext().readTree(parser)).asText());
     }
 }
