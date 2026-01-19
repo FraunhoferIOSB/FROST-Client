@@ -1,5 +1,6 @@
 package de.fraunhofer.iosb.ilt.sta.service;
 
+import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
@@ -181,7 +182,7 @@ public class TokenManagerOpenIDConnect implements TokenManager<TokenManagerOpenI
                 LOGGER.debug("RefreshToken: {}", refreshToken);
 
                 return accessToken;
-            } catch (IOException ex) {
+            } catch (JacksonException ex) {
                 LOGGER.error("Failed to parse response.", ex);
                 return null;
             }
