@@ -2,9 +2,10 @@ package de.fraunhofer.iosb.ilt.sta.jackson;
 
 import tools.jackson.core.JsonParser;
 import tools.jackson.core.JacksonException;
-import tools.jackson.core.ObjectCodec;
+import tools.jackson.core.ObjectReadContext;
 import tools.jackson.core.TreeNode;
 import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.deser.std.StdDeserializer;
 import tools.jackson.databind.node.ValueNode;
@@ -29,13 +30,12 @@ public class LocationDeserializer extends StdDeserializer<Object> {
     }
 
     @Override
-    public Object deserialize(JsonParser parser, DeserializationContext context) throws IOException, JacksonException {
-        final ObjectCodec codec = parser.getCodec();
-        TreeNode tree = codec.readTree(parser);
-        return tryConvertTree(tree, codec);
+    public Object deserialize(JsonParser parser, DeserializationContext context) throws JacksonException {
+        JsonNode tree = context.readTree(parser);
+        return tryConvertTree(tree, context);
     }
 
-    private static Object tryConvertTree(TreeNode tree, ObjectCodec parser) {
+    private static Object tryConvertTree(JsonNode tree, DeserializationContext parser) {
         if (tree.isValueNode()) {
             ValueNode value = (ValueNode) tree;
             if (value.isTextual()) {
@@ -52,15 +52,15 @@ public class LocationDeserializer extends StdDeserializer<Object> {
             }
         }
         try {
-            return parser.treeToValue(tree, GeoJsonObject.class);
-        } catch (IOException e) {
+        	return parser.readTreeAsValue(tree, GeoJsonObject.class);
+        } catch (Exception e) {
             LOGGER.debug("Not a geoJsonObject.");
         }
         return tree;
     }
 
-    public static Object deserialize(String text, ObjectMapper mapper) throws JacksonException {
-        TreeNode tree = mapper.readTree(text);
-        return tryConvertTree(tree, mapper);
-    }
+//    public static Object deserialize(String text, ObjectMapper mapper) throws JacksonException {
+//        JsonNode tree = mapper.readTree(text);
+//        return tryConvertTree(tree, mapper.readtree));
+//    }
 }
