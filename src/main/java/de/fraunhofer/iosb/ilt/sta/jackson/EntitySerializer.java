@@ -125,14 +125,9 @@ public class EntitySerializer extends StdSerializer<Entity> {
                         property.getAccessor().getType(),
                         suppressNulls, // ignore null values
                         null, null);
-                if (!suppressNulls && rawValue == null) {
-                    writer.assignNullSerializer(NullSerializer.instance);
-                }
                 try {
-                	//TODO:
-                    //writer.serializeAsField(entity, gen, serializers);
                     Object value = writer.get(entity);
-                    if (value != null) {
+                    if (value != null || !suppressNulls) {
                         serializers.defaultSerializeProperty(writer.getName(), value, gen);
                     }
 
