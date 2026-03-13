@@ -59,8 +59,4 @@ public class LocationDeserializer extends StdDeserializer<Object> {
         return tree;
     }
 
-//    public static Object deserialize(String text, ObjectMapper mapper) throws JacksonException {
-//        JsonNode tree = mapper.readTree(text);
-//        return tryConvertTree(tree, mapper.readtree));
-//    }
 }
