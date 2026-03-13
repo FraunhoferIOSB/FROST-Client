@@ -15,14 +15,14 @@ import org.threeten.extra.Interval;
  *
  */
 public class IntervalSerializer extends StdSerializer<Interval> {
-	
-	public IntervalSerializer() {
-		super(Interval.class);
-	}
+
+    public IntervalSerializer() {
+        super(Interval.class);
+    }
 
     @Override
-	public void serialize(Interval interval, JsonGenerator gen, SerializationContext provider) throws JacksonException {
-		gen.writeString(interval.toString());
-		
-	}
+    public void serialize(Interval interval, JsonGenerator gen, SerializationContext provider) throws JacksonException {
+        gen.writeString(interval.toString());
+
+    }
 }
