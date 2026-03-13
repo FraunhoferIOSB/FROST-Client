@@ -52,7 +52,7 @@ public class LocationDeserializer extends StdDeserializer<Object> {
             }
         }
         try {
-        	return parser.readTreeAsValue(tree, GeoJsonObject.class);
+            return parser.readTreeAsValue(tree, GeoJsonObject.class);
         } catch (Exception e) {
             LOGGER.debug("Not a geoJsonObject.");
         }
