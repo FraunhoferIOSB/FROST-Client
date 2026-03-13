@@ -23,9 +23,7 @@ public class LocationSerializer extends StdSerializer<Object> {
         if (value instanceof GeoJsonObject) {
             new ObjectMapper().writerFor(GeoJsonObject.class).writeValue(gen, value);
         } else {
-            ValueSerializer<Object> serializer =
-            		serializers.findValueSerializer(value.getClass());
-            serializer.serialize(value, gen, serializers);
+            gen.writePOJO(value);
         }
     }
 }
