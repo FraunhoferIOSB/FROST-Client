@@ -32,7 +32,7 @@ import de.fraunhofer.iosb.ilt.swe.common.constraint.AllowedValues;
 import de.fraunhofer.iosb.ilt.swe.common.simple.Count;
 import de.fraunhofer.iosb.ilt.swe.common.simple.Text;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

@@ -1,6 +1,6 @@
 package de.fraunhofer.iosb.ilt.sta.model;
 
-import com.fasterxml.jackson.core.JsonGenerator;
+import tools.jackson.core.JsonGenerator;
 import de.fraunhofer.iosb.ilt.sta.Utils;
 import java.io.IOException;
 import java.util.Objects;

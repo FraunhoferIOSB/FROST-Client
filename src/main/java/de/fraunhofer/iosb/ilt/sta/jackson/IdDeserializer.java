@@ -1,10 +1,10 @@
 package de.fraunhofer.iosb.ilt.sta.jackson;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.deser.std.StdDeserializer;
 import de.fraunhofer.iosb.ilt.sta.model.Id;
 import de.fraunhofer.iosb.ilt.sta.model.IdLong;
 import de.fraunhofer.iosb.ilt.sta.model.IdString;
@@ -30,9 +30,9 @@ public class IdDeserializer extends StdDeserializer<Id> {
     // Patch submitted.
     @Override
     public Id deserialize(JsonParser parser, DeserializationContext context)
-            throws IOException, JsonProcessingException {
-
-        JsonNode node = parser.getCodec().readTree(parser);
+            throws JacksonException {
+    	
+        JsonNode node = context.readTree(parser);
         if (node.isNumber()) {
             return new IdLong(node.asLong());
         }

@@ -1,11 +1,10 @@
 package de.fraunhofer.iosb.ilt.sta.jackson;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ser.std.StdSerializer;
 import de.fraunhofer.iosb.ilt.sta.model.ext.UnitOfMeasurement;
-import java.io.IOException;
 
 /**
  * Serializer for UnitOfMeasurement class.
@@ -13,18 +12,23 @@ import java.io.IOException;
  * @author Nils Sommer
  *
  */
-public class UnitOfMeasurementSerializer extends JsonSerializer<UnitOfMeasurement> {
+public class UnitOfMeasurementSerializer extends StdSerializer<UnitOfMeasurement> {
 
-    @Override
-    public void serialize(UnitOfMeasurement value, JsonGenerator gen, SerializerProvider serializers)
-            throws IOException, JsonProcessingException {
+    public UnitOfMeasurementSerializer() {
+		super(UnitOfMeasurement.class);
+	}
+
+	@Override
+    public void serialize(UnitOfMeasurement value, JsonGenerator gen, SerializationContext serializers)
+            throws JacksonException {
         gen.writeStartObject();
-        gen.writeFieldName("name");
+        gen.writeName("name");
         gen.writeString(value.getName());
-        gen.writeFieldName("symbol");
+        gen.writeName("symbol");
         gen.writeString(value.getSymbol());
-        gen.writeFieldName("definition");
+        gen.writeName("definition");
         gen.writeString(value.getDefinition());
         gen.writeEndObject();
     }
+
 }

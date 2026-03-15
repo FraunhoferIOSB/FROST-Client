@@ -1,8 +1,8 @@
 package de.fraunhofer.iosb.ilt.sta.dao;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
 import de.fraunhofer.iosb.ilt.sta.MqttException;
 import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
 import de.fraunhofer.iosb.ilt.sta.Utils;
@@ -81,7 +81,7 @@ public class ObservationDao extends BaseDao<Observation> {
             json = mapper.writeValueAsString(dataArray.getValue());
             uriBuilder = new URIBuilder(getService().getEndpoint() + "CreateObservations");
             httpPost = new HttpPost(uriBuilder.build());
-        } catch (JsonProcessingException | URISyntaxException ex) {
+        } catch (JacksonException | URISyntaxException ex) {
             throw new ServiceFailureException("Failed to create Observations.", ex);
         }
 

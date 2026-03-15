@@ -35,10 +35,12 @@ import de.fraunhofer.iosb.ilt.sta.model.builder.ext.TextBuilder;
 import de.fraunhofer.iosb.ilt.sta.model.ext.UnitOfMeasurement;
 import de.fraunhofer.iosb.ilt.sta.service.MqttConfig;
 import de.fraunhofer.iosb.ilt.sta.service.SensorThingsService;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.geojson.Point;
 import org.junit.After;
 import org.junit.Assert;
@@ -80,7 +82,8 @@ public class EntityFormatterTest {
 
     @Before
     public void setUp() throws MalformedURLException, MqttException {
-        service = new SensorThingsService(new URL("http://localhost:8080/FROST-Server/v1.0"), new MqttConfig("tcp://localhost:1883"));
+        service = new SensorThingsService(new URL("http://localhost:8080/FROST-Server/v1.0"),
+                new MqttConfig("tcp://localhost:1883"));
     }
 
     @After
@@ -89,8 +92,7 @@ public class EntityFormatterTest {
 
     @Test
     public void writeThing_Basic_Success() throws IOException {
-        String expResult
-                = "{\n"
+        String expResult = "{\n"
                 + "\"@iot.id\": 1,\n"
                 + "\"name\": \"This thing is an oven.\",\n"
                 + "\"description\": \"This thing is an oven.\",\n"
@@ -116,8 +118,7 @@ public class EntityFormatterTest {
 
     @Test
     public void writeThing_Basic_StringId_Success() throws IOException {
-        String expResult
-                = "{\n"
+        String expResult = "{\n"
                 + "\"@iot.id\": \"aStringAsId\",\n"
                 + "\"name\": \"This thing is an oven.\",\n"
                 + "\"description\": \"This thing is an oven.\",\n"
@@ -142,8 +143,7 @@ public class EntityFormatterTest {
 
     @Test
     public void writeThing_CompletelyEmpty_Success() throws IOException {
-        String expResult
-                = "{}";
+        String expResult = "{}";
         Thing entity = new Thing();
         final ObjectMapper mapper = ObjectMapperFactory.get();
         String json = mapper.writeValueAsString(entity);
@@ -152,8 +152,7 @@ public class EntityFormatterTest {
 
     @Test
     public void writeThingWithLocation() throws IOException {
-        String expResult
-                = "{\n"
+        String expResult = "{\n"
                 + "\"@iot.id\": 1,\n"
                 + "\"name\": \"This thing is an oven.\",\n"
                 + "\"description\": \"This thing is an oven.\",\n"
@@ -199,7 +198,8 @@ public class EntityFormatterTest {
                 + "";
 
         Thing entity = new Thing("TestThing", "A Thing for testing.");
-        Location location = new Location("TestLocation", "The location of the TestThing", "application/vnd.geo+json", new Point(8.8, 49.9));
+        Location location = new Location("TestLocation", "The location of the TestThing", "application/vnd.geo+json",
+                new Point(8.8, 49.9));
         List<Location> locations = new ArrayList<>();
         locations.add(location);
         entity.setLocations(locations);
@@ -210,8 +210,7 @@ public class EntityFormatterTest {
 
     @Test
     public void writeLocation_GeoJson() throws Exception {
-        String expResult
-                = "{\n"
+        String expResult = "{\n"
                 + "	\"@iot.id\": 1,\n"
                 + " \"name\": \"OvenLocation\",\n"
                 + " \"description\": \"The location of an oven.\",\n"
@@ -234,8 +233,7 @@ public class EntityFormatterTest {
 
     @Test
     public void writeLocation_String() throws Exception {
-        String expResult
-                = "{\n"
+        String expResult = "{\n"
                 + "	\"@iot.id\": 1,\n"
                 + " \"name\": \"OvenLocation\",\n"
                 + " \"description\": \"The location of an oven.\",\n"
@@ -259,8 +257,7 @@ public class EntityFormatterTest {
 
     @Test
     public void writeEverything() throws Exception {
-        String expResult
-                = "{\n"
+        String expResult = "{\n"
                 + "    \"description\": \"thing 1\",\n"
                 + "    \"name\": \"thing name 1\",\n"
                 + "    \"properties\": {\n"
@@ -356,17 +353,25 @@ public class EntityFormatterTest {
         location.setEncodingType("application/vnd.geo+json");
         thing.getLocations().add(location);
 
-        UnitOfMeasurement um1 = new UnitOfMeasurement("Lumen", "lm", "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html/Lumen");
-        Datastream ds1 = new Datastream("datastream name 1", "datastream 1", "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement", um1);
-        ds1.setObservedProperty(new ObservedProperty("Luminous Flux", new URI("http://www.qudt.org/qudt/owl/1.0.0/quantity/Instances.html/LuminousFlux"), "observedProperty 1"));
+        UnitOfMeasurement um1 = new UnitOfMeasurement("Lumen", "lm",
+                "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html/Lumen");
+        Datastream ds1 = new Datastream("datastream name 1", "datastream 1",
+                "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement", um1);
+        ds1.setObservedProperty(new ObservedProperty("Luminous Flux",
+                new URI("http://www.qudt.org/qudt/owl/1.0.0/quantity/Instances.html/LuminousFlux"),
+                "observedProperty 1"));
         ds1.setSensor(new Sensor("sensor name 1", "sensor 1", "application/pdf", "Light flux sensor"));
         ds1.getObservations().add(new Observation(3, ZonedDateTime.parse("2015-03-03T00:00:00Z")));
         ds1.getObservations().add(new Observation(4, ZonedDateTime.parse("2015-03-04T00:00:00Z")));
         thing.getDatastreams().add(ds1);
 
-        UnitOfMeasurement um2 = new UnitOfMeasurement("Centigrade", "C", "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html/Lumen");
-        Datastream ds2 = new Datastream("datastream name 2", "datastream 2", "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement", um2);
-        ds2.setObservedProperty(new ObservedProperty("Tempretaure", new URI("http://www.qudt.org/qudt/owl/1.0.0/quantity/Instances.html/Tempreture"), "observedProperty 2"));
+        UnitOfMeasurement um2 = new UnitOfMeasurement("Centigrade", "C",
+                "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html/Lumen");
+        Datastream ds2 = new Datastream("datastream name 2", "datastream 2",
+                "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement", um2);
+        ds2.setObservedProperty(new ObservedProperty("Tempretaure",
+                new URI("http://www.qudt.org/qudt/owl/1.0.0/quantity/Instances.html/Tempreture"),
+                "observedProperty 2"));
         ds2.setSensor(new Sensor("sensor name 2", "sensor 2", "application/pdf", "Tempreture sensor"));
         ds2.getObservations().add(new Observation(5, ZonedDateTime.parse("2015-03-05T00:00:00Z")));
         ds2.getObservations().add(new Observation(6, ZonedDateTime.parse("2015-03-06T00:00:00Z")));
@@ -382,8 +387,7 @@ public class EntityFormatterTest {
 
     @Test
     public void writeObservationDateTime() throws IOException {
-        String expResult
-                = "{\n"
+        String expResult = "{\n"
                 + "	\"@iot.id\": 1,\n"
                 + "	\"phenomenonTime\": \"2014-12-31T11:59:59Z\",\n"
                 + "	\"result\": 70.40\n"
@@ -404,8 +408,7 @@ public class EntityFormatterTest {
 
     @Test
     public void writeObservationInterval() throws IOException {
-        String expResult
-                = "{\n"
+        String expResult = "{\n"
                 + "	\"@iot.id\": 1,\n"
                 + "	\"phenomenonTime\": \"2014-12-31T11:59:59Z/2014-12-31T12:01:01Z\",\n"
                 + "	\"result\": 70.40\n"
@@ -427,8 +430,7 @@ public class EntityFormatterTest {
 
     @Test
     public void writeObservationNull() throws IOException {
-        String expResult
-                = "{\n"
+        String expResult = "{\n"
                 + "	\"@iot.id\": 1,\n"
                 + "	\"phenomenonTime\": \"2014-12-31T11:59:59Z\",\n"
                 + "	\"result\": null\n"
@@ -449,8 +451,7 @@ public class EntityFormatterTest {
 
     @Test
     public void writeObservationZero() throws IOException {
-        String expResult
-                = "{\n"
+        String expResult = "{\n"
                 + "	\"result\": 0.0\n"
                 + "}";
         Observation entity = new Observation();
@@ -481,12 +482,13 @@ public class EntityFormatterTest {
     }
 
     private boolean jsonEqual(String string1, String string2) {
-        ObjectMapper mapper = new ObjectMapper().enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
+
+        ObjectMapper mapper = JsonMapper.builder().enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS).build();
         try {
             JsonNode json1 = mapper.readTree(string1);
             JsonNode json2 = mapper.readTree(string2);
             return json1.equals(json2);
-        } catch (IOException ex) {
+        } catch (JacksonException ex) {
             Logger.getLogger(EntityFormatterTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -494,8 +496,7 @@ public class EntityFormatterTest {
 
     @Test
     public void writeTaskingParameter() throws IOException {
-        String expResult
-                = "{\n"
+        String expResult = "{\n"
                 + "	\"@iot.id\": 1,\n"
                 + "	\"name\": \"Control Light\",\n"
                 + "	\"description\": \"Turn the light on and off, as well as specifying light color.\",\n"
