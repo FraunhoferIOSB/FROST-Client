@@ -1,10 +1,10 @@
 package de.fraunhofer.iosb.ilt.sta.jackson;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import java.io.IOException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ser.std.StdSerializer;
+
 import org.threeten.extra.Interval;
 
 /**
@@ -14,11 +14,15 @@ import org.threeten.extra.Interval;
  * @author Nils Sommer
  *
  */
-public class IntervalSerializer extends JsonSerializer<Interval> {
+public class IntervalSerializer extends StdSerializer<Interval> {
+
+    public IntervalSerializer() {
+        super(Interval.class);
+    }
 
     @Override
-    public void serialize(Interval interval, JsonGenerator gen, SerializerProvider serializers)
-            throws IOException, JsonProcessingException {
+    public void serialize(Interval interval, JsonGenerator gen, SerializationContext provider) throws JacksonException {
         gen.writeString(interval.toString());
+
     }
 }

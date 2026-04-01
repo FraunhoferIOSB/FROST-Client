@@ -1,14 +1,13 @@
 package de.fraunhofer.iosb.ilt.sta.jackson;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.ObjectMapper;
 import de.fraunhofer.iosb.ilt.swe.common.AbstractDataComponent;
 import de.fraunhofer.iosb.ilt.swe.common.AbstractSWEIdentifiable;
 import de.fraunhofer.iosb.ilt.swe.common.complex.DataRecord;
 import de.fraunhofer.iosb.ilt.swe.common.constraint.AbstractConstraint;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * Factory for ObjectMapper instances. Keeps track of configuration.
@@ -31,17 +30,17 @@ public final class ObjectMapperFactory {
      */
     public static ObjectMapper get() {
         if (mapper == null) {
-            ObjectMapper myMapper = new ObjectMapper();
-            myMapper.registerModule(new JavaTimeModule());
-            myMapper.registerModule(new EntityModule());
-            myMapper.addMixIn(DataRecord.class, DataRecordMixin.class);
-            myMapper.addMixIn(AbstractDataComponent.class, AbstractDataComponentMixin.class);
-            myMapper.addMixIn(AbstractSWEIdentifiable.class, AbstractSWEIdentifiableMixin.class);
-            myMapper.addMixIn(AbstractConstraint.class, AbstractConstraintMixin.class);
-            myMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-            myMapper.enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
-            myMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-            mapper = myMapper;
+            mapper = JsonMapper.builder()
+                    .addModule(new EntityModule())
+                    .addMixIn(DataRecord.class, DataRecordMixin.class)
+                    .addMixIn(AbstractDataComponent.class, AbstractDataComponentMixin.class)
+                    .addMixIn(AbstractSWEIdentifiable.class, AbstractSWEIdentifiableMixin.class)
+                    .addMixIn(AbstractConstraint.class, AbstractConstraintMixin.class)
+                    .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
+                    .changeDefaultPropertyInclusion(incl -> incl.withValueInclusion(JsonInclude.Include.NON_EMPTY))
+                    .changeDefaultPropertyInclusion(incl -> incl.withContentInclusion(JsonInclude.Include.NON_EMPTY))
+                    .build();
+
         }
         return mapper;
     }

@@ -1,7 +1,7 @@
 package de.fraunhofer.iosb.ilt.sta.dao;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatchOperation;
 import de.fraunhofer.iosb.ilt.sta.MqttException;
 import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
@@ -101,7 +101,7 @@ public abstract class BaseDao<T extends Entity<T>> implements Dao<T> {
             uriBuilder = new URIBuilder(service.getFullPath(parent, plural).toURI());
             json = mapper.writeValueAsString(entity);
             httpPost = new HttpPost(uriBuilder.build());
-        } catch (URISyntaxException | JsonProcessingException ex) {
+        } catch (URISyntaxException | JacksonException ex) {
             throw new ServiceFailureException("Failed to create entity.", ex);
         }
 
@@ -210,7 +210,7 @@ public abstract class BaseDao<T extends Entity<T>> implements Dao<T> {
             uriBuilder = new URIBuilder(service.getEndpoint().toString() + this.entityPath(entity.getId()));
             json = mapper.writeValueAsString(entity);
             httpPatch = new HttpPatch(uriBuilder.build());
-        } catch (JsonProcessingException | URISyntaxException ex) {
+        } catch (JacksonException | URISyntaxException ex) {
             throw new ServiceFailureException(ex);
         }
 
@@ -235,7 +235,7 @@ public abstract class BaseDao<T extends Entity<T>> implements Dao<T> {
             uriBuilder = new URIBuilder(service.getEndpoint().toString() + this.entityPath(entity.getId()));
             json = mapper.writeValueAsString(patch);
             httpPatch = new HttpPatch(uriBuilder.build());
-        } catch (URISyntaxException | JsonProcessingException ex) {
+        } catch (URISyntaxException | JacksonException ex) {
             throw new ServiceFailureException(ex);
         }
 

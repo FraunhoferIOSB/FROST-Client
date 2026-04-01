@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.fraunhofer.iosb.ilt</groupId>
@@ -19,9 +21,10 @@
 		<commons-lang3.version>3.19.0</commons-lang3.version>
 		<httpclient.version>4.5.14</httpclient.version>
 		<jaxb-api.version>2.3.1</jaxb-api.version>
-		<jackson.version>2.21.1</jackson.version>
+		<jackson.version>3.1.0</jackson.version>
 		<jackson-annotations.version>2.21</jackson-annotations.version>
-		<jacksonGeojson.version>1.14</jacksonGeojson.version>
+		<jackson-databind.version>3.1.0</jackson-databind.version>
+		<jacksonGeojson.version>3.0</jacksonGeojson.version>
 		<jjwt.version>0.13.0</jjwt.version>
 		<json-patch.version>1.13</json-patch.version>
 		<junit.version>4.13.2</junit.version>
@@ -49,7 +52,8 @@
 	<licenses>
 		<license>
 			<name>MIT</name>
-			<comments>For more information see the LICENSE file included with the sources.</comments>
+			<comments>For more information see the LICENSE file included with
+				the sources.</comments>
 		</license>
 	</licenses>
 
@@ -76,7 +80,8 @@
 	<scm>
 		<url>https://github.com/FraunhoferIOSB/FROST-Client</url>
 		<connection>scm:git:git@github.com:FraunhoferIOSB/FROST-Client.git</connection>
-		<developerConnection>scm:git:git@github.com:FraunhoferIOSB/FROST-Client.git</developerConnection>
+		<developerConnection>
+			scm:git:git@github.com:FraunhoferIOSB/FROST-Client.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -261,7 +266,7 @@
 			<version>${jaxb-api.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
+			<groupId>tools.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
@@ -270,14 +275,11 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>${jackson-annotations.version}</version>
 		</dependency>
+		<!-- Source:
+		https://mvnrepository.com/artifact/tools.jackson.core/jackson-core -->
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
+			<groupId>tools.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jsr310</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
@@ -290,11 +292,19 @@
 			<artifactId>threeten-extra</artifactId>
 			<version>${threeten-extra.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
 			<version>${jjwt.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>io.jsonwebtoken</groupId>
+					<artifactId>jjwt-jackson</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>com.github.java-json-tools</groupId>
 			<artifactId>json-patch</artifactId>
@@ -303,6 +313,18 @@
 				<exclusion>
 					<groupId>com.google.guava</groupId>
 					<artifactId>guava</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-annotations</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>

@@ -4,18 +4,21 @@ import de.fraunhofer.iosb.ilt.sta.model.Entity;
 import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.BeanDescription;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializationConfig;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
-import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
-import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
-import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
-import com.fasterxml.jackson.databind.ser.std.NullSerializer;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.core.exc.StreamWriteException;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.BeanDescription;
+import tools.jackson.databind.SerializationConfig;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ValueSerializer;
+import tools.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.introspect.AnnotatedMember;
+import tools.jackson.databind.introspect.BeanPropertyDefinition;
+import tools.jackson.databind.jsontype.TypeSerializer;
+import tools.jackson.databind.ser.BeanPropertyWriter;
+import tools.jackson.databind.ser.std.NullSerializer;
+import tools.jackson.databind.ser.std.StdSerializer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
@@ -28,17 +31,20 @@ import java.util.List;
  * @author Nils Sommer
  *
  */
-public class EntitySerializer extends JsonSerializer<Entity> {
+public class EntitySerializer extends StdSerializer<Entity> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EntitySerializer.class);
+    public EntitySerializer() {
+		super(Entity.class);
+	}
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(EntitySerializer.class);
 
     @Override
-    public void serialize(Entity entity, JsonGenerator gen, SerializerProvider serializers)
-            throws IOException, JsonProcessingException {
-        gen.writeStartObject();
-
+    public void serialize(Entity entity, JsonGenerator gen, SerializationContext serializers) throws JacksonException {
+        gen.writeStartObject(); 
+        
         SerializationConfig config = serializers.getConfig();
-        final BeanDescription beanDesc = config.introspect(serializers.constructType(entity.getClass()));
+        final BeanDescription beanDesc = serializers.introspectBeanDescription(serializers.constructType(entity.getClass()));
 
         List<BeanPropertyDefinition> properties = beanDesc.findProperties();
         for (BeanPropertyDefinition property : properties) {
@@ -53,13 +59,17 @@ public class EntitySerializer extends JsonSerializer<Entity> {
                 Entity subEntity = (Entity) rawValue;
                 if (subEntity.getId() != null) {
                     // It's a referenced entity. -> <Entity>: { "@iot.id": <id> }
-                    gen.writeFieldName(rawValue.getClass().getSimpleName());
+                    gen.writeName(rawValue.getClass().getSimpleName());
                     gen.writeStartObject();
-                    gen.writeFieldName("@iot.id");
-                    ((Entity) rawValue).getId().writeTo(gen);
+                    gen.writeName("@iot.id");
+                    try {
+						((Entity) rawValue).getId().writeTo(gen);
+					} catch (IOException e) {
+						throw new StreamWriteException(gen, e);
+					}
                     gen.writeEndObject();
                 } else {
-                    gen.writeFieldName(rawValue.getClass().getSimpleName());
+                    gen.writeName(rawValue.getClass().getSimpleName());
                     serialize(subEntity, gen, serializers);
                 }
             } else if (rawValue instanceof EntityList) {
@@ -68,7 +78,7 @@ public class EntitySerializer extends JsonSerializer<Entity> {
                     continue;
                 }
                 // Ignore collections during serialization.
-                gen.writeFieldName(entityList.getType().getName());
+                gen.writeName(entityList.getType().getName());
                 gen.writeStartArray();
                 for (Object sub : entityList) {
                     if (sub instanceof Entity) {
@@ -77,8 +87,12 @@ public class EntitySerializer extends JsonSerializer<Entity> {
                             serialize(subEntity, gen, serializers);
                         } else {
                             gen.writeStartObject();
-                            gen.writeFieldName("@iot.id");
-                            subEntity.getId().writeTo(gen);
+                            gen.writeName("@iot.id");
+                            try {
+								subEntity.getId().writeTo(gen);
+							} catch (IOException e) {
+								throw new StreamWriteException(gen, e);
+							}
                             gen.writeEndObject();
                         }
                     }
@@ -86,10 +100,10 @@ public class EntitySerializer extends JsonSerializer<Entity> {
                 gen.writeEndArray();
             } else {
                 JsonSerialize annotation = property.getAccessor().getAnnotation(JsonSerialize.class);
-                JsonSerializer serializer = null;
+                ValueSerializer serializer = null;
                 if (annotation != null) {
                     try {
-                        Class<? extends JsonSerializer> using = annotation.using();
+                    	Class<? extends ValueSerializer> using = annotation.using();
                         serializer = using.getConstructor().newInstance();
                     } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException ex) {
                         LOGGER.warn("Could not instantiate serialiser specified in annotation.", ex);
@@ -111,11 +125,12 @@ public class EntitySerializer extends JsonSerializer<Entity> {
                         property.getAccessor().getType(),
                         suppressNulls, // ignore null values
                         null, null);
-                if (!suppressNulls && rawValue == null) {
-                    writer.assignNullSerializer(NullSerializer.instance);
-                }
                 try {
-                    writer.serializeAsField(entity, gen, serializers);
+                    Object value = writer.get(entity);
+                    if (value != null || !suppressNulls) {
+                        serializers.defaultSerializeProperty(writer.getName(), value, gen);
+                    }
+
                 } catch (Exception e) {
                     LOGGER.error("Failed to serialize entity.", e);
                 }
@@ -124,4 +139,6 @@ public class EntitySerializer extends JsonSerializer<Entity> {
 
         gen.writeEndObject();
     }
+
+	
 }

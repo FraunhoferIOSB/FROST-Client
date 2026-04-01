@@ -1,11 +1,11 @@
 package de.fraunhofer.iosb.ilt.sta.jackson;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.deser.std.StdDeserializer;
 import de.fraunhofer.iosb.ilt.sta.service.ServerSettings;
 import java.io.IOException;
 import java.util.HashMap;
@@ -32,7 +32,7 @@ public class ServerSettingsDeserializer extends StdDeserializer<ServerSettings> 
 
     @Override
     public ServerSettings deserialize(JsonParser parser, DeserializationContext context)
-            throws IOException, JsonProcessingException {
+            throws JacksonException {
         ServerSettings result = new ServerSettings();
         ObjectMapper mapper = new ObjectMapper();
 
@@ -40,7 +40,7 @@ public class ServerSettingsDeserializer extends StdDeserializer<ServerSettings> 
         if (!root.has(ServerSettings.TAG_EXTENSIONS)) {
             context.reportInputMismatch(ServerSettings.class, "mandatory property '%s' missing", ServerSettings.TAG_EXTENSIONS);
         }
-        root.get(ServerSettings.TAG_EXTENSIONS).elements().forEachRemaining(x -> {
+        root.get(ServerSettings.TAG_EXTENSIONS).forEach(x -> {
             String extensionName = x.asText();
             ServerSettings.Extension extension = ServerSettings.Extension.fromName(extensionName);
             if (extension == null) {
