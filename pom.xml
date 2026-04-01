@@ -20,8 +20,7 @@
     <licenses>
         <license>
             <name>MIT</name>
-            <comments>For more information see the LICENSE file included with
-				the sources.</comments>
+            <comments>For more information see the LICENSE file included with the sources.</comments>
         </license>
     </licenses>
 
@@ -52,17 +51,6 @@
         <url>https://github.com/FraunhoferIOSB/FROST-Client/issues</url>
     </issueManagement>
 
-    <distributionManagement>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <properties>
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -82,6 +70,7 @@
         <version.junit>4.13.2</version.junit>
         <version.logback>1.5.32</version.logback>
 
+        <version.maven.plugin.central-publishing>0.10.0</version.maven.plugin.central-publishing>
         <version.maven.plugin.compiler>3.15.0</version.maven.plugin.compiler>
         <version.maven.plugin.dependency>3.1.1</version.maven.plugin.dependency>
         <version.maven.plugin.gpg>3.2.8</version.maven.plugin.gpg>
@@ -98,6 +87,17 @@
         <version.typetools>0.6.3</version.typetools>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>tools.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${version.jackson}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -108,9 +108,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${version.jackson-annotations}</version>
         </dependency>
-
         <dependency>
             <groupId>com.github.java-json-tools</groupId>
             <artifactId>json-patch</artifactId>
@@ -144,7 +142,6 @@
             <artifactId>geojson-jackson</artifactId>
             <version>${version.jacksonGeojson}</version>
         </dependency>
-
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
@@ -211,12 +208,10 @@
         <dependency>
             <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>${version.jackson}</version>
         </dependency>
         <dependency>
             <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${version.jackson}</version>
         </dependency>
     </dependencies>
 
@@ -230,29 +225,6 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>${version.maven.plugin.release}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.owasp</groupId>
-                <artifactId>dependency-check-maven</artifactId>
-                <version>${version.dependency-check-maven}</version>
-                <configuration>
-                    <failBuildOnCVSS>8</failBuildOnCVSS>
-                    <ossIndexServerId>OWASP_OSS_INDEX</ossIndexServerId>
-                    <nvdApiServerId>NIST_NVD_API</nvdApiServerId>
-                    <nvdMaxRetryCount>20</nvdMaxRetryCount>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -368,9 +340,6 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <version>${version.maven.plugin.javadoc}</version>
-                        <configuration>
-                            <source>8</source>
-                        </configuration>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -395,14 +364,12 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>${maven-nexus-staging-plugin}</version>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>${version.maven.plugin.central-publishing}</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                            <publishingServerId>central</publishingServerId>
                         </configuration>
                     </plugin>
                 </plugins>
