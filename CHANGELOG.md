@@ -1,6 +1,8 @@
 # Development Version 0.46
 
 **Updates**
+* Updated Jackson to version 3.
+* Added automatic code formatting with spotless.
 
 
 # Release Version 0.45
