@@ -1,12 +1,34 @@
+/*
+ * Copyright (C) 2026 Fraunhofer Institut IOSB, Fraunhoferstr. 1, D 76131
+ * Karlsruhe, Germany.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package de.fraunhofer.iosb.ilt.sta.model;
 
-import tools.jackson.core.type.TypeReference;
 import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import tools.jackson.core.type.TypeReference;
 
 /**
  * This enum contains class and naming information about entities.
@@ -15,54 +37,30 @@ import java.util.Set;
  *
  */
 public enum EntityType {
-    DATASTREAM(Datastream.class, new TypeReference<Datastream>() {
-    }, "Datastream", false),
-    DATASTREAMS(Datastream.class, new TypeReference<EntityList<Datastream>>() {
-    }, "Datastreams", true),
-    MULTIDATASTREAM(MultiDatastream.class, new TypeReference<MultiDatastream>() {
-    }, "MultiDatastream", false),
-    MULTIDATASTREAMS(MultiDatastream.class, new TypeReference<EntityList<MultiDatastream>>() {
-    }, "MultiDatastreams", true),
-    FEATURE_OF_INTEREST(FeatureOfInterest.class, new TypeReference<FeatureOfInterest>() {
-    }, "FeatureOfInterest", false),
-    FEATURES_OF_INTEREST(FeatureOfInterest.class, new TypeReference<EntityList<FeatureOfInterest>>() {
-    }, "FeaturesOfInterest", true),
-    HISTORICAL_LOCATION(HistoricalLocation.class, new TypeReference<HistoricalLocation>() {
-    }, "HistoricalLocation", false),
-    HISTORICAL_LOCATIONS(HistoricalLocation.class, new TypeReference<EntityList<HistoricalLocation>>() {
-    }, "HistoricalLocations", true),
-    LOCATION(Location.class, new TypeReference<Location>() {
-    }, "Location", false),
-    LOCATIONS(Location.class, new TypeReference<EntityList<Location>>() {
-    }, "Locations", true),
-    OBSERVATION(Observation.class, new TypeReference<Observation>() {
-    }, "Observation", false),
-    OBSERVATIONS(Observation.class, new TypeReference<EntityList<Observation>>() {
-    }, "Observations", true),
-    OBSERVED_PROPERTY(ObservedProperty.class, new TypeReference<ObservedProperty>() {
-    }, "ObservedProperty", false),
-    OBSERVED_PROPERTIES(ObservedProperty.class, new TypeReference<EntityList<ObservedProperty>>() {
-    }, "ObservedProperties", true),
-    SENSOR(Sensor.class, new TypeReference<Sensor>() {
-    }, "Sensor", false),
-    SENSORS(Sensor.class, new TypeReference<EntityList<Sensor>>() {
-    }, "Sensors", true),
-    THING(Thing.class, new TypeReference<Thing>() {
-    }, "Thing", false),
-    THINGS(Thing.class, new TypeReference<EntityList<Thing>>() {
-    }, "Things", true),
-    ACTUATOR(Actuator.class, new TypeReference<Actuator>() {
-    }, "Actuator", false),
-    ACTUATORS(Actuator.class, new TypeReference<EntityList<Actuator>>() {
-    }, "Actuators", true),
-    TASKING_CAPABILITY(TaskingCapability.class, new TypeReference<TaskingCapability>() {
-    }, "TaskingCapability", false),
-    TASKING_CAPABILITIES(TaskingCapability.class, new TypeReference<EntityList<TaskingCapability>>() {
-    }, "TaskingCapabilities", true),
-    TASK(Task.class, new TypeReference<Task>() {
-    }, "Task", false),
-    TASKS(Task.class, new TypeReference<EntityList<Task>>() {
-    }, "Tasks", true);
+    DATASTREAM(Datastream.class, new TypeReference<Datastream>() {}, "Datastream", false),
+    DATASTREAMS(Datastream.class, new TypeReference<EntityList<Datastream>>() {}, "Datastreams", true),
+    MULTIDATASTREAM(MultiDatastream.class, new TypeReference<MultiDatastream>() {}, "MultiDatastream", false),
+    MULTIDATASTREAMS(MultiDatastream.class, new TypeReference<EntityList<MultiDatastream>>() {}, "MultiDatastreams", true),
+    FEATURE_OF_INTEREST(FeatureOfInterest.class, new TypeReference<FeatureOfInterest>() {}, "FeatureOfInterest", false),
+    FEATURES_OF_INTEREST(FeatureOfInterest.class, new TypeReference<EntityList<FeatureOfInterest>>() {}, "FeaturesOfInterest", true),
+    HISTORICAL_LOCATION(HistoricalLocation.class, new TypeReference<HistoricalLocation>() {}, "HistoricalLocation", false),
+    HISTORICAL_LOCATIONS(HistoricalLocation.class, new TypeReference<EntityList<HistoricalLocation>>() {}, "HistoricalLocations", true),
+    LOCATION(Location.class, new TypeReference<Location>() {}, "Location", false),
+    LOCATIONS(Location.class, new TypeReference<EntityList<Location>>() {}, "Locations", true),
+    OBSERVATION(Observation.class, new TypeReference<Observation>() {}, "Observation", false),
+    OBSERVATIONS(Observation.class, new TypeReference<EntityList<Observation>>() {}, "Observations", true),
+    OBSERVED_PROPERTY(ObservedProperty.class, new TypeReference<ObservedProperty>() {}, "ObservedProperty", false),
+    OBSERVED_PROPERTIES(ObservedProperty.class, new TypeReference<EntityList<ObservedProperty>>() {}, "ObservedProperties", true),
+    SENSOR(Sensor.class, new TypeReference<Sensor>() {}, "Sensor", false),
+    SENSORS(Sensor.class, new TypeReference<EntityList<Sensor>>() {}, "Sensors", true),
+    THING(Thing.class, new TypeReference<Thing>() {}, "Thing", false),
+    THINGS(Thing.class, new TypeReference<EntityList<Thing>>() {}, "Things", true),
+    ACTUATOR(Actuator.class, new TypeReference<Actuator>() {}, "Actuator", false),
+    ACTUATORS(Actuator.class, new TypeReference<EntityList<Actuator>>() {}, "Actuators", true),
+    TASKING_CAPABILITY(TaskingCapability.class, new TypeReference<TaskingCapability>() {}, "TaskingCapability", false),
+    TASKING_CAPABILITIES(TaskingCapability.class, new TypeReference<EntityList<TaskingCapability>>() {}, "TaskingCapabilities", true),
+    TASK(Task.class, new TypeReference<Task>() {}, "Task", false),
+    TASKS(Task.class, new TypeReference<EntityList<Task>>() {}, "Tasks", true);
 
     public Set<EntityProperty> getProperties() {
         return properties;
