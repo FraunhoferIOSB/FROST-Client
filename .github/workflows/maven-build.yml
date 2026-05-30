@@ -61,6 +61,5 @@ jobs:
 
 
     - name: Build with Maven
-      env:
       run: mvn -B install --file pom.xml -DautoUpdate=false --settings scripts/maven-ci-settings.xml
 
